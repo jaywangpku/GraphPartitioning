@@ -28,6 +28,12 @@ def Show(edgelist, numOfParts):
         if edgeNum % 1000000 == 0:
             print edgeNum
 
+
+
+
+
+
+
         g.add_edge(src, tar)
 
     # nx.draw(g)
