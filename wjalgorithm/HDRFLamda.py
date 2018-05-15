@@ -24,9 +24,6 @@ def HDRFLamdaAL(edgelist, numOfParts):
 
     # 文中所给的 lamda 参数
     x = 1.0
-
-    # 定义归一化补偿系数，用于平衡与lamda参数之间的关系
-    c = 0.00
     
     # 调试变量
     flag = 0
@@ -118,18 +115,27 @@ def HDRFLamdaAL(edgelist, numOfParts):
                 rDegTar = partialDegTar / (float)(partialDegSrc + partialDegTar)
 
             if partTemp in srcMachines:
-                gsrc =1 + c * ver2part2time[(src, partTemp)] / maxsrc + (1 - rDegSrc)
-                # gsrc =1 + c * ver2part2time[(src, partTemp)] + (1 - rDegSrc)
-                # print ver2part2time[(src, partTemp)]
-                # print "maxsrc" , maxsrc
-                # print "\n"
+                gsrc = 1 + (1 - rDegSrc)
             else:
                 gsrc = 0
             if partTemp in tarMachines:
-                gtar =1 + c * ver2part2time[(tar, partTemp)] / maxtar + (1 - rDegTar)
-                # gtar =1 + c * ver2part2time[(tar, partTemp)] + (1 - rDegTar)
+                gtar = 1 + (1 - rDegTar)
             else:
                 gtar = 0
+
+            # if partTemp in srcMachines:
+            #     gsrc =1 + c * ver2part2time[(src, partTemp)] / maxsrc + (1 - rDegSrc)
+            #     # gsrc =1 + c * ver2part2time[(src, partTemp)] + (1 - rDegSrc)
+            #     # print ver2part2time[(src, partTemp)]
+            #     # print "maxsrc" , maxsrc
+            #     # print "\n"
+            # else:
+            #     gsrc = 0
+            # if partTemp in tarMachines:
+            #     gtar =1 + c * ver2part2time[(tar, partTemp)] / maxtar + (1 - rDegTar)
+            #     # gtar =1 + c * ver2part2time[(tar, partTemp)] + (1 - rDegTar)
+            # else:
+            #     gtar = 0
 
             rep = gsrc + gtar
 
@@ -139,10 +145,39 @@ def HDRFLamdaAL(edgelist, numOfParts):
 
             partSocre2edge[partTemp] = score
 
+
         part = 0
         for j in range(numOfParts):
             if partSocre2edge[part] < partSocre2edge[j]:
                 part = j
+
+        # 使用当前获得边的子图进行x调节
+        balance = 1 - (maxsize - len(Partitions[part])) / (float)(maxsize - minsize + 1)
+        balance = balance * 0.8
+        x = math.pow(balance, 3) + 0.8
+        print x
+
+        # 子图大小的标准偏差进行x调节
+        # edgesall = 0.0
+        # edgesaverage = 0.0
+        # diffsum = 0.0
+        # edgestemp = []
+        # for i in range(numOfParts):
+        #     temp1 = len(Partitions[i])
+        #     edgesall = edgesall + temp1
+        #     edgestemp.append(temp1)
+        # edgesaverage = edgesall / numOfParts
+        # for i in range(numOfParts):
+        #     diffsum = diffsum + (edgestemp[i] - edgesaverage) * (edgestemp[i] - edgesaverage)
+        # diffsum = diffsum / numOfParts
+        # diffsum = math.sqrt(diffsum)
+        # vlrsd = diffsum / (edgesaverage + 0.000001)
+
+        
+        # balance = vlrsd * 2
+
+        # x = math.pow(balance, 13) + 1
+        # print x
 
         # 更新各种集合数据
         Partitions[part].append((src, tar))

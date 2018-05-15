@@ -186,7 +186,7 @@ def HDRFAL(edgelist, numOfParts):
 
 # time_start = time.time()
 
-HDRFAL("/home/w/data/Wiki-Vote.txt", 100)
+HDRFAL("/home/w/data/Wiki-Vote-BFS1.txt", 100)
 
 # time_end = time.time()
 # time_used = time_end - time_start
