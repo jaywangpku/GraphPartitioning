@@ -1,24 +1,32 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import random
+import math
+import time
 import networkx as nx
+import matplotlib.pyplot as plt
+import matplotlib
+import numpy as np
 
-BA = nx.random_graphs.barabasi_albert_graph(10000, 13)   # log2 n
+g = nx.random_graphs.barabasi_albert_graph(100000, 17)   # log2 n  100K nodes
 
-# print BA.nodes()
-# print BA.edges()
 
-edges = list(BA.edges())
-print(len(edges))
+print g.nodes()
+print g.edges()
 
-f = open("ba-10000.txt", "w")
+# edges = list(BA.edges())
+# print(len(edges))
 
-for i in range(len(edges)):
-	temp = edges[i]
-	src = str(temp[0])
-	tar = str(temp[1])
-	s = src + '\t' + tar + '\n'
-	f.write(s)
+# f = open("/home/w/data/testdata/ba-1.txt", "w")
+
+# for i in range(len(edges)):
+# 	temp = edges[i]
+# 	src = str(temp[0])
+# 	tar = str(temp[1])
+# 	s = src + '\t' + tar + '\n'
+# 	f.write(s)
+
 
 
 
