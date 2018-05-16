@@ -152,10 +152,10 @@ def HDRFLamdaAL(edgelist, numOfParts):
                 part = j
 
         # 使用当前获得边的子图进行x调节
-        balance = 1 - (maxsize - len(Partitions[part])) / (float)(maxsize - minsize + 1)
-        balance = balance * 0.8
-        x = math.pow(balance, 3) + 0.8
-        print x
+        # balance = 1 - (maxsize - len(Partitions[part])) / (float)(maxsize - minsize + 1)
+        # balance = balance * 0.8
+        # x = math.pow(balance, 3) + 1
+        # print x
 
         # 子图大小的标准偏差进行x调节
         # edgesall = 0.0
@@ -169,15 +169,21 @@ def HDRFLamdaAL(edgelist, numOfParts):
         # edgesaverage = edgesall / numOfParts
         # for i in range(numOfParts):
         #     diffsum = diffsum + (edgestemp[i] - edgesaverage) * (edgestemp[i] - edgesaverage)
-        # diffsum = diffsum / numOfParts
+        # diffsum = diffsum / (numOfParts - 1)
         # diffsum = math.sqrt(diffsum)
         # vlrsd = diffsum / (edgesaverage + 0.000001)
-
         
-        # balance = vlrsd * 2
+        # balance = vlrsd * 0.1
 
-        # x = math.pow(balance, 13) + 1
+        # x = math.pow(balance, 3) + 1
         # print x
+
+        # 使用最大子图与最小子图之差除以最大子图进行x调节
+        balance = (maxsize - minsize) / (float)(maxsize + 1)
+        balance = balance * 1.0
+        x = math.pow(balance, 5) + 1
+        print x
+
 
         # 更新各种集合数据
         Partitions[part].append((src, tar))
