@@ -9,11 +9,23 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 
-g = nx.random_graphs.barabasi_albert_graph(100000, 17)   # log2 n  100K nodes
+time_start = time.time()
 
 
-print g.nodes()
-print g.edges()
+g = nx.random_graphs.barabasi_albert_graph(100000 * 20, 21)   # log2 n  100K nodes   (100000, 17)
+
+
+a = list(nx.bfs_edges(g, 1))
+
+
+time_end = time.time()
+time_used = time_end - time_start
+
+print time_used
+
+# nx.draw(g)
+# plt.show()
+
 
 # edges = list(BA.edges())
 # print(len(edges))

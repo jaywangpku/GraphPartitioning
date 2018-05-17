@@ -5,7 +5,7 @@ import random
 import math
 import time
 
-def HDRFAL(edgelist, numOfParts):
+def GreedyAL(edgelist, numOfParts):
     f = open(edgelist, "r")
     # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
     Partitions = [[] for i in range(numOfParts)]
@@ -21,7 +21,7 @@ def HDRFAL(edgelist, numOfParts):
     edgeNum = 0
 
     # 文中所给的 lamda 参数
-    x = 1.000001
+    x = 1.0
     
     # 调试变量
     flag = 0
@@ -92,11 +92,11 @@ def HDRFAL(edgelist, numOfParts):
                 rDegTar = partialDegTar / (float)(partialDegSrc + partialDegTar)
 
             if partTemp in srcMachines:
-                gsrc = 1 + (1 - rDegSrc)
+                gsrc = 1
             else:
                 gsrc = 0
             if partTemp in tarMachines:
-                gtar = 1 + (1 - rDegTar)
+                gtar = 1
             else:
                 gtar = 0
 
@@ -186,7 +186,7 @@ def HDRFAL(edgelist, numOfParts):
 
 # time_start = time.time()
 
-HDRFAL("/home/w/data/testdata/ba-1.txt", 100)
+GreedyAL("/home/w/data/testdata/ba-1.txt", 100)
 
 # time_end = time.time()
 # time_used = time_end - time_start
