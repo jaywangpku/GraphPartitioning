@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# 经证实，复杂度太高，不可行
 # 构建边的bfs图
 
 import random
