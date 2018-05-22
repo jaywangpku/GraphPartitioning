@@ -93,7 +93,7 @@ def Show(edgelist, numOfParts):
     # plt.xlabel('The degrees')
     # plt.ylabel('The Numbers')
     plt.tight_layout()
-    plt.savefig('ans1.svg', dpi = 400)
+    # plt.savefig('ans1.svg', dpi = 400)
     plt.show()
 
 
@@ -150,7 +150,7 @@ def Show(edgelist, numOfParts):
 
 # time_start = time.time()
 
-Show("/home/w/data/testdata/test/ba-02.txt", 100)
+Show("/home/w/data/Wiki-Vote.txt", 100)
 
 # time_end = time.time()
 # time_used = time_end - time_start

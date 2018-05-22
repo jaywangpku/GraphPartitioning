@@ -15,7 +15,7 @@ import numpy as np
 time_start = time.time()
 
 f = open("/home/w/data/testdata/test.txt", "w+")
-g = nx.random_graphs.barabasi_albert_graph(100000 , 17)   # log2 n  100K nodes   (100000, 17)
+g = nx.random_graphs.barabasi_albert_graph(100000 , 30)   # log2 n  100K nodes   (100000, 17)
 
 a = list(g.edges())
 

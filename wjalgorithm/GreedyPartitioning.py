@@ -167,7 +167,7 @@ def GreedyAL(edgelist, numOfParts):
         temp = temp + (len(Partitions[i]) - AveSize) * (len(Partitions[i]) - AveSize)
         if maxEdges < len(Partitions[i]):
             maxEdges = len(Partitions[i])
-        #print len(Partitions[i])
+        print len(Partitions[i])
     temp = temp/numOfParts
     temp = math.sqrt(temp)
 
@@ -186,7 +186,7 @@ def GreedyAL(edgelist, numOfParts):
 
 # time_start = time.time()
 
-GreedyAL("/home/w/data/Wiki-VoteRandom.txt", 100)
+GreedyAL("/home/w/data/testdata/bfs1.txt", 100)
 
 # time_end = time.time()
 # time_used = time_end - time_start

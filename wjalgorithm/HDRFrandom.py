@@ -297,7 +297,7 @@ def HDRFRandomAL(edgelist, numOfParts):
 
 # wjAL("/home/w/data/Wiki-VoteRandom.txt", 20)
 # HDRFBufAL("/home/w/data/rmat/Armat-10000.txt", 100)
-HDRFRandomAL("/home/w/data/Wiki-Vote.txt", 100)
+HDRFRandomAL("/home/w/data/testdata/bfs1.txt", 100)
 
 
 # time_end = time.time()
