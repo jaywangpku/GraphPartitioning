@@ -21,7 +21,7 @@ def HDRFAL(edgelist, numOfParts):
     edgeNum = 0
 
     # 文中所给的 lamda 参数
-    x = 1.001
+    x = 1.0
 
     # 调试变量
     flag = 0
@@ -45,6 +45,7 @@ def HDRFAL(edgelist, numOfParts):
                 maxsize = len(Partitions[i])
             if minsize > len(Partitions[i]):
                 minsize = len(Partitions[i])
+        # print maxsize - minsize
         
         if ver2partDic.has_key(src):
             srcMachines = ver2partDic[src]
@@ -112,6 +113,7 @@ def HDRFAL(edgelist, numOfParts):
         for j in range(numOfParts):
             if partSocre2edge[part] < partSocre2edge[j]:
                 part = j
+        # print partSocre2edge[part]
 
         # 更新各种集合数据
         Partitions[part].append((src, tar))
@@ -134,8 +136,8 @@ def HDRFAL(edgelist, numOfParts):
         ver2degreeDic[src] = ver2degreeDic[src] + 1
         ver2degreeDic[tar] = ver2degreeDic[tar] + 1
 
-        if edgeNum == 800:
-            break
+        # if edgeNum == 1200:
+        #     break
 
     
     # 获取所有子图的顶点个数    
@@ -189,7 +191,7 @@ def HDRFAL(edgelist, numOfParts):
 
 # time_start = time.time()
 
-HDRFAL("/home/w/data/testdata/bfs1.txt", 100)
+HDRFAL("/home/w/data/testdata/bfs1r.txt", 100)
 
 # time_end = time.time()
 # time_used = time_end - time_start
