@@ -23,7 +23,7 @@ def singleWindowGreedy(edgelist, numOfParts):
     Edgeall = []
 
     # 单滑动窗口大小
-    window = 10000             # 103689  Wiki-Vote
+    window = 103689             # 103689  Wiki-Vote
     win = []
     winedges = 0
 

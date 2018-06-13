@@ -14,7 +14,7 @@ import numpy as np
 
 time_start = time.time()
 
-f = open("/home/w/data/testdata/bfs1.txt", "r")
+f = open("/home/w/data/Wiki-Vote.txt", "r")
 
 a = []
 
@@ -33,7 +33,11 @@ for i in range(len(a)):
     else:
         ans[src] = 1
 
-print ans[18]
+aa = 0
+for k,v in ans.items():
+    if ans[k] > aa:
+        aa = ans[k]
+print aa
 
 time_end = time.time()
 time_used = time_end - time_start

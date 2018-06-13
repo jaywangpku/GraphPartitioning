@@ -23,7 +23,7 @@ def singleWindow(edgelist, numOfParts):
     Edgeall = []
 
     # 单滑动窗口大小
-    window = 100000             # 103689  Wiki-Vote
+    window = 1000               # 103689  Wiki-Vote
     win = []
     winedges = 0
 
@@ -229,12 +229,12 @@ def singleWindow(edgelist, numOfParts):
     #     print '\n'
 
 
-# time_start = time.time()
+time_start = time.time()
 
-singleWindow("/home/w/data/testdata/bfs1.txt", 100)
+singleWindow("/home/w/data/Wiki-Vote.txt", 100)
 
-# time_end = time.time()
-# time_used = time_end - time_start
+time_end = time.time()
+time_used = time_end - time_start
 
-# print time_used
+print time_used
 
