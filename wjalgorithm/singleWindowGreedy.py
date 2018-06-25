@@ -23,7 +23,7 @@ def singleWindowGreedy(edgelist, numOfParts):
     Edgeall = []
 
     # 单滑动窗口大小
-    window = 103689             # 103689  Wiki-Vote
+    window = 100000            # 103689  Wiki-Vote
     win = []
     winedges = 0
 
@@ -50,7 +50,7 @@ def singleWindowGreedy(edgelist, numOfParts):
         if winedges < window and i < len(Edgeall)-1:
             continue
 
-        print len(win), winedges
+        # print len(win), winedges
         # exit(0)
         
         # 全局洗牌法初始化
@@ -68,6 +68,7 @@ def singleWindowGreedy(edgelist, numOfParts):
             srcTar = win[order[i]]
             src = long(srcTar[0])
             tar = long(srcTar[1])
+            print src, tar
 
             # print src, tar
             edgeNum = edgeNum + 1
@@ -82,7 +83,7 @@ def singleWindowGreedy(edgelist, numOfParts):
                     maxsize = len(Partitions[i])
                 if minsize > len(Partitions[i]):
                     minsize = len(Partitions[i])
-            print maxsize - minsize
+            # print maxsize - minsize
             
             # 构建初始子图集合
             if ver2partDic.has_key(src):

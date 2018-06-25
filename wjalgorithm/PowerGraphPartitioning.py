@@ -26,6 +26,7 @@ def Greedy(edgelist, numOfParts):
         srcTar = line.strip().split()
         src = long(srcTar[0])
         tar = long(srcTar[1])
+        print src, tar
         
         edgeNum = edgeNum + 1
         if edgeNum % 1000000 == 0:

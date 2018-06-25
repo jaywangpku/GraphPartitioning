@@ -21,7 +21,7 @@ for i in range(len(y)):
 xx = []
 yy = []
 for i in range(len(y)):
-	if i % 10 == 0:
+	if i % 1 == 0:
 		if y[i] < 100000:
 			yy.append(y[i])
 for i in range(len(yy)):

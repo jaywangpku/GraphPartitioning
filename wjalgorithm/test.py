@@ -12,37 +12,37 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 
-time_start = time.time()
+# time_start = time.time()
 
 f = open("/home/w/data/Wiki-Vote.txt", "r")
 
-a = []
+# a = []
 
-for line in f:
-    srcTar = line.strip().split()
-    src = long(srcTar[0])
-    tar = long(srcTar[1])
-    a.append((src, tar))
+# for line in f:
+#     srcTar = line.strip().split()
+#     src = long(srcTar[0])
+#     tar = long(srcTar[1])
+#     a.append((src, tar))
 
-ans = {}
-for i in range(len(a)):
-    src = a[i][0]
-    tar = a[i][1]
-    if ans.has_key(src):
-        ans[src] = ans[src] + 1
-    else:
-        ans[src] = 1
+# ans = {}
+# for i in range(len(a)):
+#     src = a[i][0]
+#     tar = a[i][1]
+#     if ans.has_key(src):
+#         ans[src] = ans[src] + 1
+#     else:
+#         ans[src] = 1
 
-aa = 0
-for k,v in ans.items():
-    if ans[k] > aa:
-        aa = ans[k]
-print aa
+# aa = 0
+# for k,v in ans.items():
+#     if ans[k] > aa:
+#         aa = ans[k]
+# print aa
 
-time_end = time.time()
-time_used = time_end - time_start
+# time_end = time.time()
+# time_used = time_end - time_start
 
-print time_used
+# print time_used
 
 # nx.draw(g)
 # plt.show()
@@ -60,6 +60,16 @@ print time_used
 #   s = src + '\t' + tar + '\n'
 #   f.write(s)
 
+edges = []
+for i in range(100):
+    edges.append(i)
+
+edgesout = edges[0:30]
+
+edgesset = set(edges)
+edgesoutset = set(edgesout)
+edges = list(edgesset-edgesoutset)
+print edges[90]
 
 
 

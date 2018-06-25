@@ -6,7 +6,7 @@ import random
 import math
 import time
 
-def swxWindow(edgelist, numOfParts):
+def swxGWindow(edgelist, numOfParts):
     f = open(edgelist, "r")
     # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
     Partitions = [[] for i in range(numOfParts)]
@@ -27,7 +27,7 @@ def swxWindow(edgelist, numOfParts):
     window = 10000               # 103689  Wiki-Vote
     win = []
     winedges = 0
-    wx = 0.3                     # 表示每次只分三成的边出去
+    wx = 0.1                     # 表示每次只分三成的边出去
     winout = []
 
     # 文中所给的 lamda 参数
@@ -35,7 +35,6 @@ def swxWindow(edgelist, numOfParts):
 
     # 调试变量
     flag = 0
-    over = 0
 
     for i in range(numOfParts):
         vertexDic[i] = set()
@@ -49,8 +48,8 @@ def swxWindow(edgelist, numOfParts):
         tar = long(srcTar[1])
 
         # 缓冲边集的相关量更新
-        window = 10000
-        wx = 0.01
+        window = 30000
+        wx = 1.0
         winedges = len(win)
         outedge = int(window * wx)
 
@@ -61,6 +60,11 @@ def swxWindow(edgelist, numOfParts):
             outedge = len(win)
         if winedges < window and i < len(Edgeall)-1:
             continue
+
+        # print win
+        # flag = flag + 1
+        # if(flag == 10):
+        #     exit(0)
 
         # print len(win), winedges
         # exit(0)
@@ -81,11 +85,11 @@ def swxWindow(edgelist, numOfParts):
             winout.append(srcTar)
             src = long(srcTar[0])
             tar = long(srcTar[1])
+            print src, tar
 
-            # print src, tar
             edgeNum = edgeNum + 1
-            if edgeNum % 1000000 == 0:
-                print edgeNum
+            # if edgeNum % 1000000 == 0:
+            #     print edgeNum
 
             # 寻找当前子图的最大值和最小值
             maxsize = 0
@@ -121,50 +125,53 @@ def swxWindow(edgelist, numOfParts):
             # if flag > 30:
             #     exit()
 
-            # 对每一个 part 计算 score
-            for partTemp in range(numOfParts):
+            if (len(srcMachines) == 0) and (len(tarMachines) == 0):      # A(u) 和 A(v) 都是空集  选择边数量最少的子图加入
+                part = -1
+                for i in range(numOfParts):
+                    if part == -1:
+                        part = i
+                        continue 
+                    if len(Partitions[i]) < len(Partitions[part]):
+                        part = i
 
-                if ver2degreeDic.has_key(src):
-                    partialDegSrc = ver2degreeDic[src]
-                else:
-                    partialDegSrc = 0
-                    ver2degreeDic[src] = partialDegSrc
+            elif (len(srcMachines) > 0) and (len(tarMachines) == 0):
+                part = -1
+                for i in srcMachines:
+                    if part == -1:
+                        part = i
+                        continue
+                    if len(Partitions[i]) < len(Partitions[part]):
+                        part = i
 
-                if ver2degreeDic.has_key(tar):
-                    partialDegTar = ver2degreeDic[tar]
-                else:
-                    partialDegTar = 0
-                    ver2degreeDic[tar] = partialDegTar
+            elif (len(srcMachines) == 0) and (len(tarMachines) > 0):
+                part = -1
+                for i in tarMachines:
+                    if part == -1:
+                        part = i
+                        continue
+                    if len(Partitions[i]) < len(Partitions[part]):
+                        part = i
 
-                if partialDegSrc == 0 and partialDegTar == 0:
-                    rDegSrc = 0
-                    rDegTar = 0
-                else:
-                    rDegSrc = partialDegSrc / (float)(partialDegSrc + partialDegTar)
-                    rDegTar = partialDegTar / (float)(partialDegSrc + partialDegTar)
-
-                if partTemp in srcMachines:
-                    gsrc = 1 + (1 - rDegSrc)
-                else:
-                    gsrc = 0
-                if partTemp in tarMachines:
-                    gtar = 1 + (1 - rDegTar)
-                else:
-                    gtar = 0
-
-                rep = gsrc + gtar
-
-                bal = x * (maxsize - len(Partitions[partTemp])) / (float)(maxsize - minsize + 1)   # 加 1 避免除 0
-
-                score = rep + bal
-
-                partSocre2edge[partTemp] = score
-
-            part = 0
-            for j in range(numOfParts):
-                if partSocre2edge[part] < partSocre2edge[j]:
-                    part = j
-            print partSocre2edge[part]
+            elif ((len(srcMachines) > 0) and len(tarMachines) > 0):
+                Intersection = srcMachines & tarMachines
+                Convergence = srcMachines | tarMachines
+                if (len(Intersection) > 0):
+                    part = -1
+                    for i in Intersection:
+                        if part == -1:
+                            part = i
+                            continue
+                        if len(Partitions[i]) < len(Partitions[part]):
+                            part = i
+                elif (len(Intersection) == 0):
+                    part = -1
+                    for i in Convergence:
+                        if part == -1:
+                            part = i
+                            continue
+                        if len(Partitions[i]) < len(Partitions[part]):
+                            part = i
+            # print partSocre2edge[part]
 
             # 更新各种集合数据
             Partitions[part].append((src, tar))
@@ -184,8 +191,8 @@ def swxWindow(edgelist, numOfParts):
             ver2partDic[src].add(part)
             ver2partDic[tar].add(part)
 
-            ver2degreeDic[src] = ver2degreeDic[src] + 1
-            ver2degreeDic[tar] = ver2degreeDic[tar] + 1
+            # ver2degreeDic[src] = ver2degreeDic[src] + 1
+            # ver2degreeDic[tar] = ver2degreeDic[tar] + 1
 
         win = list(set(win)-set(winout))
 
@@ -243,7 +250,7 @@ def swxWindow(edgelist, numOfParts):
 
 time_start = time.time()
 
-swxWindow("/home/w/data/Wiki-Vote.txt", 100)
+swxGWindow("/home/w/data/Wiki-Vote.txt", 100)
 
 time_end = time.time()
 time_used = time_end - time_start
