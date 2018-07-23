@@ -1,11 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# 用于对数据集边集序列的离散度进行测试
+
 import random
 import math
 import time
 
-def Greedy(edgelist, numOfParts):
+def findM(edgelist, numOfParts):
     f = open(edgelist, "r")
     # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
     Partitions = [[] for i in range(numOfParts)]
@@ -26,7 +28,6 @@ def Greedy(edgelist, numOfParts):
         srcTar = line.strip().split()
         src = long(srcTar[0])
         tar = long(srcTar[1])
-        print src, tar
         
         edgeNum = edgeNum + 1
         if edgeNum % 1000000 == 0:
@@ -120,49 +121,56 @@ def Greedy(edgelist, numOfParts):
 
         ver2partDic[src].add(part)
         ver2partDic[tar].add(part)
+
+    ans = 0
+    for i in range(len(Partitions)):
+        if(len(Partitions[i])>1000):
+            print len(Partitions[i])
+            ans = ans + 1
+    print ans
         
     
-    # 获取所有子图的顶点个数    
-    allVertex = 0L
-    maxVertices = 0L
-    for i in range(numOfParts):
-        allVertex = allVertex + len(vertexDic[i])
-        if maxVertices < len(vertexDic[i]):
-            maxVertices = len(vertexDic[i])
-    # 获取整个图的顶点个数
-    vertexAll = vertexDic[0]
-    for i in range(1, numOfParts):
-        vertexAll.update(vertexDic[i])
-    # 获取顶点的LSD和LRSD
-    temp = 0L
-    AveVerSize = len(vertexAll)/float(numOfParts)
-    for i in range(0, numOfParts):
-        temp = temp + (len(vertexDic[i]) - AveVerSize) * (len(vertexDic[i]) - AveVerSize)
-    temp = temp/numOfParts
-    temp = math.sqrt(temp)
+    # # 获取所有子图的顶点个数    
+    # allVertex = 0L
+    # maxVertices = 0L
+    # for i in range(numOfParts):
+    #     allVertex = allVertex + len(vertexDic[i])
+    #     if maxVertices < len(vertexDic[i]):
+    #         maxVertices = len(vertexDic[i])
+    # # 获取整个图的顶点个数
+    # vertexAll = vertexDic[0]
+    # for i in range(1, numOfParts):
+    #     vertexAll.update(vertexDic[i])
+    # # 获取顶点的LSD和LRSD
+    # temp = 0L
+    # AveVerSize = len(vertexAll)/float(numOfParts)
+    # for i in range(0, numOfParts):
+    #     temp = temp + (len(vertexDic[i]) - AveVerSize) * (len(vertexDic[i]) - AveVerSize)
+    # temp = temp/numOfParts
+    # temp = math.sqrt(temp)
 
-    VLSD = temp
-    VLRSD = VLSD/AveVerSize
+    # VLSD = temp
+    # VLRSD = VLSD/AveVerSize
 
-    VRF = allVertex/float(len(vertexAll))
+    # VRF = allVertex/float(len(vertexAll))
     
-    # 获取边的相关信息
-    maxEdges = 0L
-    AveSize = edgeNum/float(numOfParts)
-    temp = 0L
-    for i in range(numOfParts):
-        temp = temp + (len(Partitions[i]) - AveSize) * (len(Partitions[i]) - AveSize)
-        if maxEdges < len(Partitions[i]):
-            maxEdges = len(Partitions[i])
-        print len(Partitions[i])
-    temp = temp/numOfParts
-    temp = math.sqrt(temp)
+    # # 获取边的相关信息
+    # maxEdges = 0L
+    # AveSize = edgeNum/float(numOfParts)
+    # temp = 0L
+    # for i in range(numOfParts):
+    #     temp = temp + (len(Partitions[i]) - AveSize) * (len(Partitions[i]) - AveSize)
+    #     if maxEdges < len(Partitions[i]):
+    #         maxEdges = len(Partitions[i])
+    #     print len(Partitions[i])
+    # temp = temp/numOfParts
+    # temp = math.sqrt(temp)
 
-    LSD = temp
-    LRSD = LSD/AveSize
+    # LSD = temp
+    # LRSD = LSD/AveSize
 
-    # 依次是 VRF  LSD  LRSD  VLSD  VLRSD  子图点最大值  子图点平均值  子图边最大值  子图边平均值
-    print VRF, LSD, LRSD, VLSD, VLRSD, maxVertices, allVertex/numOfParts, maxEdges, edgeNum/numOfParts
+    # # 依次是 VRF  LSD  LRSD  VLSD  VLRSD  子图点最大值  子图点平均值  子图边最大值  子图边平均值
+    # print VRF, LSD, LRSD, VLSD, VLRSD, maxVertices, allVertex/numOfParts, maxEdges, edgeNum/numOfParts
 
 
     # for i in range(numOfParts):
@@ -173,7 +181,7 @@ def Greedy(edgelist, numOfParts):
 
 # time_start = time.time()
 
-Greedy("/home/w/data/web-Google.txt", 100)
+findM("/home/w/data/web-Google.txt", 100000)
 
 # time_end = time.time()
 # time_used = time_end - time_start

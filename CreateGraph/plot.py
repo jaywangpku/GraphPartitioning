@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# 用于绘制幂律分布图，判断是否符合幂律分布特性
+
 import random
 import math
 import time
@@ -150,7 +152,7 @@ def Show(edgelist, numOfParts):
 
 # time_start = time.time()
 
-Show("/home/w/data/Wiki-Vote.txt", 100)
+Show("/home/w/data/web-Google.txt", 100)
 
 # time_end = time.time()
 # time_used = time_end - time_start
