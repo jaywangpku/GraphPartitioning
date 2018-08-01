@@ -15,9 +15,9 @@ from bidict import bidict
 
 time_start = time.time()
 
-f = open("/home/w/data/testdata/bfs.txt", "w+")
+f = open("/home/w/data/testdata/bfs-1000K.txt", "w+")
 
-g = nx.random_graphs.barabasi_albert_graph(100, 7)   # log2 n  100K nodes   (100000, 17)
+g = nx.random_graphs.barabasi_albert_graph(1000000, 20)   # log2 n  100K nodes   (100000, 17)
 G = nx.Graph()
 
 edges = list(g.edges())

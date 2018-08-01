@@ -89,7 +89,7 @@ def RVChashAL(edgelist, numOfParts):
 
 # time_start = time.time()
 
-RVChashAL("/home/w/data/Wiki-Vote.txt", 20)
+RVChashAL("/home/w/data/web-Google.txt", 100)
 
 # time_end = time.time()
 # time_used = time_end - time_start

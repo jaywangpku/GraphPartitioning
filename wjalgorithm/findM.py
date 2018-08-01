@@ -17,6 +17,9 @@ def findM(edgelist, numOfParts):
     ver2partDic = {}
     # 存储总边数
     edgeNum = 0
+
+    # all vertcies
+    allvertices = set()
     
     # 调试变量
     flag = 0
@@ -30,8 +33,10 @@ def findM(edgelist, numOfParts):
         tar = long(srcTar[1])
         
         edgeNum = edgeNum + 1
-        if edgeNum % 1000000 == 0:
+        if edgeNum % 1000 == 0:
             print edgeNum
+        allvertices.add(src)
+        allvertices.add(tar)
         
         if ver2partDic.has_key(src):
             srcMachines = ver2partDic[src]
@@ -128,6 +133,8 @@ def findM(edgelist, numOfParts):
             print len(Partitions[i])
             ans = ans + 1
     print ans
+    print edgeNum
+    print len(allvertices)
         
     
     # # 获取所有子图的顶点个数    
@@ -181,7 +188,7 @@ def findM(edgelist, numOfParts):
 
 # time_start = time.time()
 
-findM("/home/w/data/web-Google.txt", 100000)
+findM("/home/w/data/web-Stanford.txt", 10000000)
 
 # time_end = time.time()
 # time_used = time_end - time_start

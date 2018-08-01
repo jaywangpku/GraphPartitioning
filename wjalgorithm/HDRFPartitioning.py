@@ -21,7 +21,7 @@ def HDRFAL(edgelist, numOfParts):
     edgeNum = 0
 
     # 文中所给的 lamda 参数
-    x = 1.0
+    x = 1.5
 
     # 调试变量
     flag = 0
@@ -189,12 +189,11 @@ def HDRFAL(edgelist, numOfParts):
     #     print '\n'
 
 
-# time_start = time.time()
+time_start = time.time()
 
-HDRFAL("/home/w/data/testdata/bfs1r.txt", 100)
+HDRFAL("/home/w/data/Wiki-Vote.txt", 256)
 
-# time_end = time.time()
-# time_used = time_end - time_start
-
-# print time_used
+time_end = time.time()
+time_used = time_end - time_start
+print time_used
 

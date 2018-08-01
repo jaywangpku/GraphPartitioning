@@ -26,7 +26,6 @@ def Greedy(edgelist, numOfParts):
         srcTar = line.strip().split()
         src = long(srcTar[0])
         tar = long(srcTar[1])
-        print src, tar
         
         edgeNum = edgeNum + 1
         if edgeNum % 1000000 == 0:
@@ -171,12 +170,11 @@ def Greedy(edgelist, numOfParts):
     #     print '\n'
 
 
-# time_start = time.time()
+time_start = time.time()
 
-Greedy("/home/w/data/web-Google.txt", 100)
+Greedy("/home/w/data/Wiki-VoteRandom.txt", 256)
 
-# time_end = time.time()
-# time_used = time_end - time_start
-
-# print time_used
+time_end = time.time()
+time_used = time_end - time_start
+print time_used
 
