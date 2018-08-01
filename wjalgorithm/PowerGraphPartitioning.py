@@ -172,7 +172,7 @@ def Greedy(edgelist, numOfParts):
 
 time_start = time.time()
 
-Greedy("/home/w/data/Wiki-VoteRandom.txt", 256)
+Greedy("/home/w/data/web-BerkStan.txt", 100)
 
 time_end = time.time()
 time_used = time_end - time_start
