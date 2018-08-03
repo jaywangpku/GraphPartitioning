@@ -7,7 +7,7 @@ import random
 import math
 import time
 
-def SWRPartitioning(edgelist, numOfParts):
+def SWRPartitioning(edgelist, numOfParts, wins):
     f = open(edgelist, "r")
 
     # [[(src, dst), (src, dst),...],[()],[()]....]          每个分区对应的边集合
@@ -36,7 +36,7 @@ def SWRPartitioning(edgelist, numOfParts):
         src = long(srcTar[0])
         tar = long(srcTar[1])
         lines.append((src, tar))
-    window = 8000000
+    window = wins
     maxwindowsize = 10000000000
     threshold = 1
     THRESHOLD = 0.1
@@ -444,7 +444,7 @@ def SWRPartitioning(edgelist, numOfParts):
 
 time_start = time.time()
 
-SWRPartitioning("/home/w/data/web-BerkStan.txt", 100)
+SWRPartitioning("/home/w/data/Wiki-Vote.txt", 4, 103689)
 
 time_end = time.time()
 time_used = time_end - time_start

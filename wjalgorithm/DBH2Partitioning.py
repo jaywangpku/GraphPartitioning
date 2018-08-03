@@ -183,7 +183,7 @@ def DBH2AL(edgelist, numOfParts):
         temp = temp + (len(Partitions[i]) - AveSize) * (len(Partitions[i]) - AveSize)
         if maxEdges < len(Partitions[i]):
             maxEdges = len(Partitions[i])
-        #print len(Partitions[i])
+        print len(Partitions[i])
     temp = temp/numOfParts
     temp = math.sqrt(temp)
 
@@ -200,12 +200,15 @@ def DBH2AL(edgelist, numOfParts):
     #     print '\n'
 
 
-# time_start = time.time()
+time_start = time.time()
 
-# DBH2AL("/home/w/data/Wiki-Vote.txt", 100)
+parts = [4,8,10,16,30,32,60,64,120,128,250,256,500,512]
+for i in range(len(parts)):
+    print parts[i]
+    DBH2AL("/home/w/data/web-BerkStan.txt", parts[i])
 
-# time_end = time.time()
-# time_used = time_end - time_start
+time_end = time.time()
+time_used = time_end - time_start
 
-# print time_used
+print time_used
 

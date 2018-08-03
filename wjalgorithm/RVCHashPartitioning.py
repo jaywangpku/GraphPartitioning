@@ -70,7 +70,7 @@ def RVChashAL(edgelist, numOfParts):
         temp = temp + (len(Partitions[i]) - AveSize) * (len(Partitions[i]) - AveSize)
         if maxEdges < len(Partitions[i]):
             maxEdges = len(Partitions[i])
-        #print len(Partitions[i])
+        print len(Partitions[i])
     temp = temp/numOfParts
     temp = math.sqrt(temp)
 
@@ -87,12 +87,17 @@ def RVChashAL(edgelist, numOfParts):
     #     print '\n'
 
 
-# time_start = time.time()
+time_start = time.time()
 
-RVChashAL("/home/w/data/web-Google.txt", 100)
+parts = [3,4,8,11,16,29,32,59,64,99,119,128,201,249,256]
+for i in range(len(parts)):
+    print parts[i]
+    RVChashAL("/home/w/data/web-BerkStan.txt", parts[i])
 
-# time_end = time.time()
-# time_used = time_end - time_start
+# RVChashAL("/home/w/data/Wiki-Vote.txt", 201)
 
-# print time_used
+time_end = time.time()
+time_used = time_end - time_start
+
+print time_used
 

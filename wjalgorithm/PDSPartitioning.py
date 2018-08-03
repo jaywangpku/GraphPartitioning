@@ -5,7 +5,7 @@ import random
 import math
 import time
 
-def PDSAL(edgelist, numOfParts):
+def PDSAL(edgelist, numOfParts, rs, cs):
     f = open(edgelist, "r")
     # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
     Partitions = [[] for i in range(numOfParts)]
@@ -16,8 +16,8 @@ def PDSAL(edgelist, numOfParts):
 
     # PDS 对应点约束集合
     # numOfParts = 32
-    row = 10  # 行 
-    col = 10  # 列
+    row = rs  # 行 
+    col = cs  # 列
     # { part:set(part1, part2,...),... }            初始化PDS集合特性
     partSet = {}
     # 将列元素全部加入集合
@@ -124,7 +124,7 @@ def PDSAL(edgelist, numOfParts):
         temp = temp + (len(Partitions[i]) - AveSize) * (len(Partitions[i]) - AveSize)
         if maxEdges < len(Partitions[i]):
             maxEdges = len(Partitions[i])
-        #print len(Partitions[i])
+        print len(Partitions[i])
     temp = temp/numOfParts
     temp = math.sqrt(temp)
 
@@ -141,12 +141,19 @@ def PDSAL(edgelist, numOfParts):
     #     print '\n'
 
 
-# time_start = time.time()
+time_start = time.time()
 
-# PDSAL("/home/w/data/Wiki-Vote.txt", 100)
+parts = [3,4,8,18,32,50,72,100,128,162,200,242,256]
+rs = [1,2,2,3,4,5,6,10,8,9,10,11,16]
+cs = [3,2,4,6,8,10,12,10,16,18,20,22,16]
+for i in range(len(parts)):
+    print parts[i]
+    PDSAL("/home/w/data/web-BerkStan.txt", parts[i], rs[i], cs[i])
 
-# time_end = time.time()
-# time_used = time_end - time_start
+# PDSAL("/home/w/data/testdata/bfs1.txt", 18, 3, 6)
 
-# print time_used
+time_end = time.time()
+time_used = time_end - time_start
+
+print time_used
 

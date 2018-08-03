@@ -172,7 +172,10 @@ def Greedy(edgelist, numOfParts):
 
 time_start = time.time()
 
-Greedy("/home/w/data/web-BerkStan.txt", 100)
+parts = [4,8,10,16,30,32,60,64,120,128,250,256,500,512]
+for i in range(len(parts)):
+    print parts[i]
+    Greedy("/home/w/data/web-BerkStan.txt", parts[i])
 
 time_end = time.time()
 time_used = time_end - time_start

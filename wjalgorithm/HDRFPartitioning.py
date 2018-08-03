@@ -5,7 +5,7 @@ import random
 import math
 import time
 
-def HDRFAL(edgelist, numOfParts):
+def HDRFAL(edgelist, numOfParts, a):
     f = open(edgelist, "r")
     # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
     Partitions = [[] for i in range(numOfParts)]
@@ -21,7 +21,7 @@ def HDRFAL(edgelist, numOfParts):
     edgeNum = 0
 
     # 文中所给的 lamda 参数
-    x = 2.6
+    x = a
 
     # 调试变量
     flag = 0
@@ -191,7 +191,13 @@ def HDRFAL(edgelist, numOfParts):
 
 time_start = time.time()
 
-HDRFAL("/home/w/data/web-NotreDame.txt", 100)
+
+# parts = [4,8,10,16,30,32,60,64,120,128,250,256,500,512]
+# for i in range(len(parts)):
+#     print parts[i]
+#     HDRFAL("/home/w/data/web-BerkStan.txt", parts[i], a)
+
+HDRFAL("/home/w/data/web-BerkStan.txt", 16, 1.4)
 
 time_end = time.time()
 time_used = time_end - time_start

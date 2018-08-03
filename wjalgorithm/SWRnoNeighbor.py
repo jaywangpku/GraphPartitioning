@@ -7,7 +7,7 @@ import random
 import math
 import time
 
-def SWRPartitioning(edgelist, numOfParts):
+def SWRPartitioning(edgelist, numOfParts, wins):
     f = open(edgelist, "r")
 
     # [[(src, dst), (src, dst),...],[()],[()]....]          每个分区对应的边集合
@@ -36,7 +36,7 @@ def SWRPartitioning(edgelist, numOfParts):
         src = long(srcTar[0])
         tar = long(srcTar[1])
         lines.append((src, tar))
-    window = 2000000
+    window = wins
     maxwindowsize = 10000000000
     threshold = 1
     THRESHOLD = 0.1
@@ -253,14 +253,14 @@ def SWRPartitioning(edgelist, numOfParts):
             part = -1
             if len(Intersection) == 0:
                 if srcDegree > tarDegree:
-                    for i in srcDegree:
+                    for i in tarMachines:
                         if part == -1:
                             part = i
                             continue
                         if len(Partitions[i]) < len(Partitions[part]):
                             part = i
                 else:
-                    for i in tarDegree:
+                    for i in srcMachines:
                         if part == -1:
                             part = i
                             continue
@@ -328,7 +328,7 @@ def SWRPartitioning(edgelist, numOfParts):
 
 time_start = time.time()
 
-SWRPartitioning("/home/w/data/web-NotreDame.txt", 100)
+SWRPartitioning("/home/w/data/Wiki-Vote.txt", 256, 103689)
 
 time_end = time.time()
 time_used = time_end - time_start
