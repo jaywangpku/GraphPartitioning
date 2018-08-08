@@ -32,9 +32,9 @@ def findM(edgelist, numOfParts):
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
-        edgeNum = edgeNum + 1
-        if edgeNum % 1000 == 0:
-            print edgeNum
+        # edgeNum = edgeNum + 1
+        # if edgeNum % 1000 == 0:
+        #     print edgeNum
         allvertices.add(src)
         allvertices.add(tar)
         
@@ -129,12 +129,12 @@ def findM(edgelist, numOfParts):
 
     ans = 0
     for i in range(len(Partitions)):
-        if(len(Partitions[i])>1000):
+        if(len(Partitions[i])>0):
             print len(Partitions[i])
             ans = ans + 1
     print ans
-    print edgeNum
-    print len(allvertices)
+    # print edgeNum
+    # print len(allvertices)
         
     
     # # 获取所有子图的顶点个数    
@@ -188,7 +188,7 @@ def findM(edgelist, numOfParts):
 
 # time_start = time.time()
 
-findM("/home/w/data/web-Stanford.txt", 10000000)
+findM("/home/w/data/testdata/bfs1_1000000_0.7.txt", 10000000)
 
 # time_end = time.time()
 # time_used = time_end - time_start

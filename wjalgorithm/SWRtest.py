@@ -1,66 +1,70 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# SWR方案测试代码--不考虑邻居节点的情况
+
 import random
 import math
 import time
 
-def Greedy(edgelist, numOfParts):
+def SWRPartitioning(edgelist, numOfParts, wins):
     f = open(edgelist, "r")
-    # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
+
+    # [[(src, dst), (src, dst),...],[()],[()]....]          每个分区对应的边集合
     Partitions = [[] for i in range(numOfParts)]
-    # { part:set(v1,v2,...), ... }                  存储每个分区对应的点
+    # { part:set(v1,v2,...), ... }                          存储每个分区对应的点
     vertexDic = {}
-    # { vertex:set(part1, part2,...),... }          存储每个点对应的分区
+    # { vertex:set(part1, part2,...),... }                  存储每个点对应的分区
     ver2partDic = {}
+    # { vertex:degree,... }                                 存储每个点对应的度信息
+    ver2degreeDic = {}
+    # { part:numofneigbors,... }                            存储每个分区对应该轮顶点的邻居数量
+    part2neighbor = {}
     # 存储总边数
     edgeNum = 0
-    
-    # 调试变量
-    flag = 0
 
     for i in range(numOfParts):
         vertexDic[i] = set()
-    
+
     for line in f:
         srcTar = line.strip().split()
         src = long(srcTar[0])
         tar = long(srcTar[1])
-        
+
+        window = wins
+        maxwindowsize = 10000000000
+    
+            
+        # 对边进行分配
         edgeNum = edgeNum + 1
-        if edgeNum % 1000000 == 0:
-            print edgeNum
-        
         if ver2partDic.has_key(src):
             srcMachines = ver2partDic[src]
         else:
-            src2partSet = set()
-            ver2partDic[src] = src2partSet
+            ver2partDic[src] = set()
             srcMachines = ver2partDic[src]
-
         if ver2partDic.has_key(tar):
             tarMachines = ver2partDic[tar]
         else:
-            tar2partSet = set()
-            ver2partDic[tar] = tar2partSet
-            tarMachines = ver2partDic[tar]   
+            ver2partDic[tar] = set()
+            tarMachines = ver2partDic[tar]
+        if ver2degreeDic.has_key(src):
+            srcDegree = ver2degreeDic[src]
+        else:
+            ver2degreeDic[src] = 0
+            srcDegree = 0
+        if ver2degreeDic.has_key(tar):
+            tarDegree = ver2degreeDic[tar]
+        else:
+            ver2degreeDic[tar] = 0
+            tarDegree = 0
+        
 
-        # 分边策略
-        # print src
-        # print tar
-        # print srcMachines
-        # print tarMachines
-        # flag = flag + 1
-        # if flag > 30:
-        #     exit()
-
-
-        if (len(srcMachines) == 0) and (len(tarMachines) == 0):      # A(u) 和 A(v) 都是空集  选择边数量最少的子图加入
+        if (len(srcMachines) == 0) and (len(tarMachines) == 0):
             part = -1
             for i in range(numOfParts):
                 if part == -1:
                     part = i
-                    continue 
+                    continue
                 if len(Partitions[i]) < len(Partitions[part]):
                     part = i
 
@@ -82,20 +86,27 @@ def Greedy(edgelist, numOfParts):
                 if len(Partitions[i]) < len(Partitions[part]):
                     part = i
 
-        elif ((len(srcMachines) > 0) and len(tarMachines) > 0):
+        else:
             Intersection = srcMachines & tarMachines
             Convergence = srcMachines | tarMachines
-            if (len(Intersection) > 0):
-                part = -1
+            part = -1
+            if len(Intersection) == 0:
+                if srcDegree > tarDegree:
+                    for i in tarMachines:
+                        if part == -1:
+                            part = i
+                            continue
+                        if len(Partitions[i]) < len(Partitions[part]):
+                            part = i
+                else:
+                    for i in srcMachines:
+                        if part == -1:
+                            part = i
+                            continue
+                        if len(Partitions[i]) < len(Partitions[part]):
+                            part = i  
+            else:
                 for i in Intersection:
-                    if part == -1:
-                        part = i
-                        continue
-                    if len(Partitions[i]) < len(Partitions[part]):
-                        part = i
-            elif (len(Intersection) == 0):
-                part = -1
-                for i in Convergence:
                     if part == -1:
                         part = i
                         continue
@@ -104,23 +115,13 @@ def Greedy(edgelist, numOfParts):
 
         # 更新各种集合数据
         Partitions[part].append((src, tar))
-        
-        # if vertexDic.has_key(part):
-        #     vertexDic[part].add(src)
-        #     vertexDic[part].add(tar)
-        # else:
-        #     vertexSet = set()  # 定义的是集合
-        #     vertexSet.add(src)
-        #     vertexSet.add(tar)
-        #     vertexDic[part] = vertexSet
-
         vertexDic[part].add(src)
         vertexDic[part].add(tar)
-
         ver2partDic[src].add(part)
         ver2partDic[tar].add(part)
-        
-    
+        ver2degreeDic[src] = ver2degreeDic[src] + 1
+        ver2degreeDic[tar] = ver2degreeDic[tar] + 1
+
     # 获取所有子图的顶点个数    
     allVertex = 0L
     maxVertices = 0L
@@ -164,22 +165,11 @@ def Greedy(edgelist, numOfParts):
     print VRF, LSD, LRSD, VLSD, VLRSD, maxVertices, allVertex/numOfParts, maxEdges, edgeNum/numOfParts
 
 
-    # for i in range(numOfParts):
-    #     for j in range(len(Partitions[i])):
-    #         print Partitions[i][j]
-    #     print '\n'
-
-
 time_start = time.time()
 
-# parts = [4,8,10,16,30,32,60,64,120,128,250,256,500,512]
-# for i in range(len(parts)):
-#     print parts[i]
-#     Greedy("/home/w/data/web-BerkStan.txt", parts[i])
-
-Greedy("/home/w/data/web-BerkStan.txt", 64)
+SWRPartitioning("/home/w/data/web-BerkStan.txt", 64, 7600795)
 
 time_end = time.time()
 time_used = time_end - time_start
-print time_used
 
+print time_used

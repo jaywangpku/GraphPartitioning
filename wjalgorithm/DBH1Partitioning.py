@@ -153,12 +153,12 @@ def DBH1AL(edgelist, numOfParts):
 
 time_start = time.time()
 
-parts = [3,4,8,11,16,29,32,59,64,99,119,128,201,249,256]
-for i in range(len(parts)):
-    print parts[i]
-    DBH1AL("/home/w/data/web-BerkStan.txt", parts[i])
+# parts = [3,4,8,11,16,29,32,59,64,99,119,128,201,249,256]
+# for i in range(len(parts)):
+#     print parts[i]
+#     DBH1AL("/home/w/data/web-BerkStan.txt", parts[i])
 
-# DBH1AL("/home/w/data/testdata/bfs1.txt", 200)
+DBH1AL("/home/w/data/web-BerkStan.txt", 64)
 
 time_end = time.time()
 time_used = time_end - time_start

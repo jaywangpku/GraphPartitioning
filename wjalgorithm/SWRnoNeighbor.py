@@ -39,7 +39,7 @@ def SWRPartitioning(edgelist, numOfParts, wins):
     window = wins
     maxwindowsize = 10000000000
     threshold = 1
-    THRESHOLD = 0.1
+    THRESHOLD = 0.3
     win = []
     line = 0
     while line < len(lines):
@@ -169,10 +169,10 @@ def SWRPartitioning(edgelist, numOfParts, wins):
                 maxPartition = len(Partitions[i])
             if minPartition > len(Partitions[i]):
                 minPartition = len(Partitions[i])
-        if float(maxPartition - minPartition)/float(maxPartition + minPartition) > THRESHOLD:
-            window = window * 2
-        if window > maxwindowsize:
-            window = maxwindowsize
+        # if float(maxPartition - minPartition)/float(maxPartition + minPartition) > THRESHOLD:
+        #     window = window * 2
+        # if window > maxwindowsize:
+        #     window = maxwindowsize
 
     # 最后的部分边
     order = []
@@ -328,7 +328,7 @@ def SWRPartitioning(edgelist, numOfParts, wins):
 
 time_start = time.time()
 
-SWRPartitioning("/home/w/data/Wiki-Vote.txt", 256, 103689)
+SWRPartitioning("/home/w/data/web-BerkStan.txt", 64, 7600795)
 
 time_end = time.time()
 time_used = time_end - time_start
