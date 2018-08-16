@@ -7,7 +7,7 @@ import random
 import math
 import time
 
-def SWRPartitioning(edgelist, numOfParts, wins):
+def SWRPartitioning(edgelist, numOfParts, wins, thresholds):
     f = open(edgelist, "r")
 
     # [[(src, dst), (src, dst),...],[()],[()]....]          每个分区对应的边集合
@@ -38,8 +38,8 @@ def SWRPartitioning(edgelist, numOfParts, wins):
         lines.append((src, tar))
     window = wins
     maxwindowsize = 10000000000
-    threshold = 1
-    THRESHOLD = 0.3
+    threshold = thresholds
+    THRESHOLD = 0.000001
     win = []
     line = 0
     while line < len(lines):
@@ -169,10 +169,10 @@ def SWRPartitioning(edgelist, numOfParts, wins):
                 maxPartition = len(Partitions[i])
             if minPartition > len(Partitions[i]):
                 minPartition = len(Partitions[i])
-        # if float(maxPartition - minPartition)/float(maxPartition + minPartition) > THRESHOLD:
-        #     window = window * 2
-        # if window > maxwindowsize:
-        #     window = maxwindowsize
+        if float(maxPartition - minPartition)/float(maxPartition + minPartition) > THRESHOLD:
+            window = window * 2
+        if window > maxwindowsize:
+            window = maxwindowsize
 
     # 最后的部分边
     order = []
@@ -328,7 +328,12 @@ def SWRPartitioning(edgelist, numOfParts, wins):
 
 time_start = time.time()
 
-SWRPartitioning("/home/w/data/web-BerkStan.txt", 64, 7600795)
+# parts = [4,10,30,50,100,150,200,256]
+# for i in range(len(parts)):
+#     print parts[i]
+#     SWRPartitioning("/home/w/data/web-BerkStan.txt", parts[i], 760079)
+
+SWRPartitioning("/home/w/data/Wiki-Vote.txt", 256, 1036, 0.01)
 
 time_end = time.time()
 time_used = time_end - time_start

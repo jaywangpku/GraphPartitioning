@@ -131,11 +131,21 @@ time_start = time.time()
 # parts = [3,4,9,25,49,64,81,100,121,169,200,225,256]
 # rs = [1,2,3,5,7,8,9,10,11,13,10,15,16]
 # cs = [3,2,3,5,7,8,9,10,11,13,20,15,16]
-# for i in range(len(parts)):
-#     print parts[i]
-#     GridAL("/home/w/data/web-BerkStan.txt", parts[i], rs[i], cs[i])
 
-GridAL("/home/w/data/web-BerkStan.txt", 64, 8, 8)
+# parts = [3,4,8,10,16,30,32,60,64,100,120,128,200,250,256]
+# rs = [1,2,2,2,4,5,4,6,8,10,10,8,10,10,16]
+# cs = [3,2,4,5,4,6,8,10,8,10,12,16,20,25,16]
+
+parts = [4,10,30,50,100,150,200,256]
+rs = [2,2,3,5,10,10,10,16]
+cs = [2,5,10,10,10,15,20,16]
+
+
+for i in range(len(parts)):
+    print parts[i]
+    GridAL("/home/w/data/web-BerkStan.txt", parts[i], rs[i], cs[i])
+
+# GridAL("/home/w/data/web-NotreDame.txt", 64, 8, 8)
 
 time_end = time.time()
 time_used = time_end - time_start

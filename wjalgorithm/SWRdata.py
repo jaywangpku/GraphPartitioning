@@ -9,7 +9,7 @@ import time
 
 def SWRdata(edgelist, numOfParts):
     f = open(edgelist, "r")
-    fchange = open("/home/w/data/testdata/bfs1_1500000_0.7.txt", "w+")
+    fchange = open("/home/w/data/testdata/bfs1_70000_0.4.txt", "w+")
     lines = []
     afterlines = []
     for line in f:
@@ -17,8 +17,8 @@ def SWRdata(edgelist, numOfParts):
         src = long(srcTar[0])
         tar = long(srcTar[1])
         lines.append((src, tar))
-    window = 1500000
-    threshold = 0.7
+    window = 70000
+    threshold = 0.4
     win = []
     line = 0
     while line < len(lines):

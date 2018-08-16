@@ -188,7 +188,7 @@ def findM(edgelist, numOfParts):
 
 # time_start = time.time()
 
-findM("/home/w/data/testdata/bfs1_1000000_0.7.txt", 10000000)
+findM("/home/w/data/testdata/bfs1_70000_0.4.txt", 10000000)
 
 # time_end = time.time()
 # time_used = time_end - time_start
