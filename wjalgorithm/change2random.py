@@ -9,7 +9,7 @@ import time
 
 def change2random(edgelist, numOfParts):
     f = open(edgelist, "r")
-    fchange = open("/home/w/data/web-StanfordRandom.txt", "w+")
+    fchange = open("/home/w/data/Wiki-Vote-undirected-Random.txt", "w+")
     lines = []
     for line in f:
         srcTar = line.strip().split()
@@ -33,7 +33,7 @@ def change2random(edgelist, numOfParts):
        
 # time_start = time.time()
 
-change2random("/home/w/data/web-Stanford.txt", 100000)
+change2random("/home/w/data/Wiki-Vote-undirected.txt", 100000)
 
 # time_end = time.time()
 # time_used = time_end - time_start

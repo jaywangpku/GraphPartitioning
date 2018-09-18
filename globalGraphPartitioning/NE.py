@@ -7,6 +7,7 @@ import time
 import networkx as nx
 import matplotlib.pyplot as plt
 
+time_start = time.time()
 f = open("/home/w/data/Wiki-Vote.txt", "r")
 G = nx.Graph()
 for line in f:
@@ -15,9 +16,10 @@ for line in f:
     tar = long(srcTar[1])
     G.add_edge(src, tar)
 # G = nx.random_graphs.barabasi_albert_graph(100, 7)
-P = 100
+P = 4
 PLEN = len(G.edges)/P
-print len(G.edges)
+VALL = len(G.nodes)
+print len(G.edges), VALL
 
 # x = list(G.nodes)[0]
 # print x
@@ -33,11 +35,11 @@ for i in range(P):
         # plt.show()
         diff_set = boundary_set - core_set
         if len(diff_set) == 0:
-            print "aaaaaa"
+            # print "aaaaaa"
             x = random.randint(0, len(G.edges)-1)  # 随机从当前剩余的图中选取一点作为起始点
             x = list(G.edges)[x][0]
         else:
-            print "bbbbbb"
+            # print "bbbbbb"
             diff_list = list(diff_set)
             diff_neighbors = []
             for j in range(len(diff_list)):
@@ -48,11 +50,11 @@ for i in range(P):
                     x = j
             x = diff_list[x]
 
-        print "x " ,x
+        # print "x " ,x
 
         x_neighbors = list(set(G.neighbors(x)) - boundary_set)
 
-        print "x_neighbors " ,len(x_neighbors)
+        # print "x_neighbors " ,len(x_neighbors)
 
         core_set.add(x)
         boundary_set.add(x)
@@ -69,14 +71,39 @@ for i in range(P):
                 break
         # G.remove_node(x)
 
-        print "G.edges " ,len(G.edges)
-        print "\n"
+        # print "G.edges " ,len(G.edges)
+        # print "\n"
         if len(G.edges) == 0:
             break
     if len(G.edges) == 0:
         break
-ans = 0
+# ans = 0
+# for i in range(P):
+#     print len(Partitions[i])
+#     ans = ans + len(Partitions[i])
+# print ans
+
+Vertices = []
+for i in range(P):
+    v = set()
+    for j in range(len(Partitions[i])):
+        src = Partitions[i][j][0]
+        tar = Partitions[i][j][1]
+        v.add(src)
+        v.add(tar)
+    print len(v)
+    Vertices.append(v)
 for i in range(P):
     print len(Partitions[i])
-    ans = ans + len(Partitions[i])
-print ans
+VertexALL = 0
+for i in range(len(Vertices)):
+    VertexALL = VertexALL + len(Vertices[i])
+VRF = VertexALL/1.0/VALL
+print VRF
+
+
+
+
+time_end = time.time()
+time_used = time_end - time_start
+print time_used

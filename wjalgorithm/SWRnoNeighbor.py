@@ -333,7 +333,7 @@ time_start = time.time()
 #     print parts[i]
 #     SWRPartitioning("/home/w/data/web-BerkStan.txt", parts[i], 760079)
 
-SWRPartitioning("/home/w/data/Wiki-Vote.txt", 256, 1036, 0.01)
+SWRPartitioning("/home/w/data/Wiki-Vote-undirected.txt", 4, 100762, 1)
 
 time_end = time.time()
 time_used = time_end - time_start
