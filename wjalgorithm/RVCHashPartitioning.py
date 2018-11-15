@@ -88,14 +88,14 @@ def RVChashAL(edgelist, numOfParts):
 
 
 time_start = time.time()
-parts = [4,10,30,50,100,150,200,256]
+# parts = [4,10,30,50,100,150,200,256]
 
 # parts = [3,4,8,11,16,29,32,59,64,99,119,128,201,249,256]
-for i in range(len(parts)):
-    print parts[i]
-    RVChashAL("/home/w/data/web-BerkStan.txt", parts[i])
+# for i in range(len(parts)):
+#     print parts[i]
+#     RVChashAL("/home/w/data/testdata/bfs1.txt", parts[i])
 
-# RVChashAL("/home/w/data/web-BerkStan.txt", 256)
+RVChashAL("/home/w/data/testdata/bfs1.txt", 101)
 
 time_end = time.time()
 time_used = time_end - time_start

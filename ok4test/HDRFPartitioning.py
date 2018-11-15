@@ -1,13 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# 完整的greedy方案实现
+# 完整的HDRF方案实现
 
 import random
 import math
 import time
 
-def Greedy(edgelist, numOfParts):
+def HDRFAL(edgelist, numOfParts, a):
     f = open(edgelist, "r")
     # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
     Partitions = [[] for i in range(numOfParts)]
@@ -15,9 +15,16 @@ def Greedy(edgelist, numOfParts):
     vertexDic = {}
     # { vertex:set(part1, part2,...),... }          存储每个点对应的分区
     ver2partDic = {}
+    # { vertex:degree,... }                         存储每个点对应的度信息
+    ver2degreeDic = {}
+    # { part1:score, part2:score,... }              存储每一条边相对每个子图的分数
+    partSocre2edge = {}
     # 存储总边数
     edgeNum = 0
-    
+
+    # 文中所给的 lamda 参数
+    x = a
+
     # 调试变量
     flag = 0
 
@@ -26,12 +33,23 @@ def Greedy(edgelist, numOfParts):
     
     for line in f:
         srcTar = line.strip().split()
+        if(srcTar[0] == '#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
         edgeNum = edgeNum + 1
         if edgeNum % 1000000 == 0:
             print edgeNum
+
+        maxsize = 0
+        minsize = 100000000
+        for i in range(numOfParts):
+            if maxsize < len(Partitions[i]):
+                maxsize = len(Partitions[i])
+            if minsize > len(Partitions[i]):
+                minsize = len(Partitions[i])
+        # print maxsize - minsize
         
         if ver2partDic.has_key(src):
             srcMachines = ver2partDic[src]
@@ -56,53 +74,50 @@ def Greedy(edgelist, numOfParts):
         # if flag > 30:
         #     exit()
 
+        # 对每一个 part 计算 score
+        for partTemp in range(numOfParts):
 
-        if (len(srcMachines) == 0) and (len(tarMachines) == 0):      # A(u) 和 A(v) 都是空集  选择边数量最少的子图加入
-            part = -1
-            for i in range(numOfParts):
-                if part == -1:
-                    part = i
-                    continue 
-                if len(Partitions[i]) < len(Partitions[part]):
-                    part = i
+            if ver2degreeDic.has_key(src):
+                partialDegSrc = ver2degreeDic[src]
+            else:
+                partialDegSrc = 0
+                ver2degreeDic[src] = partialDegSrc
 
-        elif (len(srcMachines) > 0) and (len(tarMachines) == 0):
-            part = -1
-            for i in srcMachines:
-                if part == -1:
-                    part = i
-                    continue
-                if len(Partitions[i]) < len(Partitions[part]):
-                    part = i
+            if ver2degreeDic.has_key(tar):
+                partialDegTar = ver2degreeDic[tar]
+            else:
+                partialDegTar = 0
+                ver2degreeDic[tar] = partialDegTar
 
-        elif (len(srcMachines) == 0) and (len(tarMachines) > 0):
-            part = -1
-            for i in tarMachines:
-                if part == -1:
-                    part = i
-                    continue
-                if len(Partitions[i]) < len(Partitions[part]):
-                    part = i
+            if partialDegSrc == 0 and partialDegTar == 0:
+                rDegSrc = 0
+                rDegTar = 0
+            else:
+                rDegSrc = partialDegSrc / (float)(partialDegSrc + partialDegTar)
+                rDegTar = partialDegTar / (float)(partialDegSrc + partialDegTar)
 
-        elif ((len(srcMachines) > 0) and len(tarMachines) > 0):
-            Intersection = srcMachines & tarMachines
-            Convergence = srcMachines | tarMachines
-            if (len(Intersection) > 0):
-                part = -1
-                for i in Intersection:
-                    if part == -1:
-                        part = i
-                        continue
-                    if len(Partitions[i]) < len(Partitions[part]):
-                        part = i
-            elif (len(Intersection) == 0):
-                part = -1
-                for i in Convergence:
-                    if part == -1:
-                        part = i
-                        continue
-                    if len(Partitions[i]) < len(Partitions[part]):
-                        part = i
+            if partTemp in srcMachines:  # 这一步用sketch可以极大程度减少内存使用量，分布式通信量
+                gsrc = 1 + (1 - rDegSrc)
+            else:
+                gsrc = 0
+            if partTemp in tarMachines:
+                gtar = 1 + (1 - rDegTar)
+            else:
+                gtar = 0
+
+            rep = gsrc + gtar
+
+            bal = x * (maxsize - len(Partitions[partTemp])) / (float)(maxsize - minsize + 1)   # 加 1 避免除 0
+
+            score = rep + bal
+
+            partSocre2edge[partTemp] = score
+
+        part = 0
+        for j in range(numOfParts):
+            if partSocre2edge[part] < partSocre2edge[j]:
+                part = j
+        # print partSocre2edge[part]
 
         # 更新各种集合数据
         Partitions[part].append((src, tar))
@@ -121,7 +136,13 @@ def Greedy(edgelist, numOfParts):
 
         ver2partDic[src].add(part)
         ver2partDic[tar].add(part)
-        
+
+        ver2degreeDic[src] = ver2degreeDic[src] + 1
+        ver2degreeDic[tar] = ver2degreeDic[tar] + 1
+
+        # if edgeNum == 1200:
+        #     break
+
     
     # 获取所有子图的顶点个数    
     allVertex = 0L
@@ -186,16 +207,19 @@ def Greedy(edgelist, numOfParts):
     #         print Partitions[i][j]
     #     print '\n'
 
+
 time_start = time.time()
-
 # parts = [4,10,30,50,100,150,200,256]
-
 # parts = [4,8,10,16,30,32,60,64,120,128,250,256,500,512]
 # for i in range(len(parts)):
 #     print parts[i]
-#     Greedy("/home/w/data/Wiki-VoteRandom.txt", parts[i])
+#     HDRFAL("/home/w/data/web-BerkStan.txt", parts[i], 3.0)
 
-Greedy("/home/w/data/Wiki-VoteRandom.txt", 100)
+# for i in range(len(parts)):
+#     print parts[i]
+#     HDRFAL("/home/w/data/web-BerkStan.txt", parts[i], 2.0)
+
+HDRFAL("/home/wj/swr/data/soc-LiveJournal1.txt", 100, 1.1)
 
 time_end = time.time()
 time_used = time_end - time_start
