@@ -172,14 +172,14 @@ def Greedy(edgelist, numOfParts):
 
 time_start = time.time()
 
-parts = [4,10,30,50,100,150,200,256]
+# parts = [4,10,30,50,100,150,200,256]
 
 # parts = [4,8,10,16,30,32,60,64,120,128,250,256,500,512]
-for i in range(len(parts)):
-    print parts[i]
-    Greedy("/home/w/data/web-BerkStan.txt", parts[i])
+# for i in range(len(parts)):
+#     print parts[i]
+#     Greedy("/home/w/data/Wiki-VoteRandom.txt", parts[i])
 
-# Greedy("/home/w/data/web-BerkStan.txt", 64)
+Greedy("/home/w/data/Wiki-VoteRandom.txt", 550)
 
 time_end = time.time()
 time_used = time_end - time_start

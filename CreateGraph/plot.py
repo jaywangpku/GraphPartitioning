@@ -26,6 +26,8 @@ def Show(edgelist, numOfParts):
     
     for line in f:
         srcTar = line.strip().split()
+        if(srcTar[0]=='#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
@@ -152,7 +154,7 @@ def Show(edgelist, numOfParts):
 
 # time_start = time.time()
 
-Show("/home/w/data/web-NotreDameRandom.txt", 100)
+Show("/home/w/Desktop/power-law-data/t4.0.txt", 100)
 
 # time_end = time.time()
 # time_used = time_end - time_start

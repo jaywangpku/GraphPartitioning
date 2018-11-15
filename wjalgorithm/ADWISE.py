@@ -1,38 +1,44 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# 本例用于实现ADWISE算法
+
 import random
 import math
 import time
 
-def HDRFAL(edgelist, numOfParts, a):
-    f = open(edgelist, "r")
-    # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
-    Partitions = [[] for i in range(numOfParts)]
-    # { part:set(v1,v2,...), ... }                  存储每个分区对应的点
-    vertexDic = {}
-    # { vertex:set(part1, part2,...),... }          存储每个点对应的分区
-    ver2partDic = {}
-    # { vertex:degree,... }                         存储每个点对应的度信息
-    ver2degreeDic = {}
-    # { part1:score, part2:score,... }              存储每一条边相对每个子图的分数
-    partSocre2edge = {}
-    # 存储总边数
-    edgeNum = 0
+f = open("/home/w/data/Wiki-Vote.txt", "r")
+edges = []
+for line in f:
+    srcTar = line.strip().split()
+    if(srcTar[0] == '#'):
+        continue
+    src = long(srcTar[0])
+    tar = long(srcTar[1])
+    edges.append((src, tar))
+alpha = 0.7
+beta = 0.0
+gamma = 0.2
+delat = 0.1
+Latency = 0.0
 
-    # 文中所给的 lamda 参数
-    x = a
+# [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
+Partitions = [[] for i in range(numOfParts)]
+# { part:set(v1,v2,...), ... }                  存储每个分区对应的点
+vertexDic = {}
+# { vertex:set(part1, part2,...),... }          存储每个点对应的分区
+ver2partDic = {}
+# { vertex:degree,... }                         存储每个点对应的度信息
+ver2degreeDic = {}
+# { part1:score, part2:score,... }              存储每一条边相对每个子图的分数
+partSocre2edge = {}
+# 存储总边数
+edgeNum = 0
 
-    # 调试变量
-    flag = 0
 
-    for i in range(numOfParts):
-        vertexDic[i] = set()
-    
-    for line in f:
-        srcTar = line.strip().split()
-        src = long(srcTar[0])
-        tar = long(srcTar[1])
+
+
+
         
         edgeNum = edgeNum + 1
         if edgeNum % 1000000 == 0:

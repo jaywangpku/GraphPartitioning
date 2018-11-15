@@ -29,6 +29,8 @@ def findM(edgelist, numOfParts):
     
     for line in f:
         srcTar = line.strip().split()
+        if(srcTar[0]=='#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
@@ -188,7 +190,7 @@ def findM(edgelist, numOfParts):
 
 # time_start = time.time()
 
-findM("/home/w/data/testdata/bfs1_70000_0.4.txt", 10000000)
+findM("/home/w/data/cit-Patents.txt", 10000)
 
 # time_end = time.time()
 # time_used = time_end - time_start

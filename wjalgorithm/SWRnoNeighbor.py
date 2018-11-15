@@ -7,6 +7,9 @@ import random
 import math
 import time
 
+
+
+
 def SWRPartitioning(edgelist, numOfParts, wins, thresholds):
     f = open(edgelist, "r")
 
@@ -17,6 +20,7 @@ def SWRPartitioning(edgelist, numOfParts, wins, thresholds):
     # { vertex:set(part1, part2,...),... }                  存储每个点对应的分区
     ver2partDic = {}
     # { vertex:set(neighbor1, neighbor2,...),... }          存储每个点对应的邻居节点信息
+
     ver2neighborDic = {}
     # { vertex:degree,... }                                 存储每个点对应的度信息
     ver2degreeDic = {}
@@ -333,7 +337,7 @@ time_start = time.time()
 #     print parts[i]
 #     SWRPartitioning("/home/w/data/web-BerkStan.txt", parts[i], 760079)
 
-SWRPartitioning("/home/w/data/Wiki-Vote-undirected.txt", 4, 100762, 1)
+SWRPartitioning("/home/w/data/testdata/bfs1.txt", 100, 1699711, 1)
 
 time_end = time.time()
 time_used = time_end - time_start

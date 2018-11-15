@@ -82,11 +82,6 @@ for i in range(len(c)):
 # nx.draw(G)
 # plt.show()
 
-
-
-
-
-
 time_end = time.time()
 time_used = time_end - time_start
 print time_used
