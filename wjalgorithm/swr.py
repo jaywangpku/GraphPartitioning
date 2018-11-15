@@ -43,7 +43,7 @@ partVertexTimes = {}
 
 edges = []
 window = []
-f = open("/home/w/data/Wiki-VoteRandom.txt", "r")
+f = open("/home/w/data/testdata/bfs1.txt", "r")
 for line in f:
     srcTar = line.strip().split()
     src = long(srcTar[0])
@@ -186,11 +186,11 @@ while(line < len(edges)):
         if(partVertexTimes.has_key((part, src))):
             partVertexTimes[(part, src)] = partVertexTimes[(part, src)] + 1
         else:
-            partVertexTimes[(part, src)] = 0
+            partVertexTimes[(part, src)] = 1
         if(partVertexTimes.has_key((part, tar))):
             partVertexTimes[(part, tar)] = partVertexTimes[(part, tar)] + 1
         else:
-            partVertexTimes[(part, tar)] = 0
+            partVertexTimes[(part, tar)] = 1
         
     # 修正窗口大小和内容
     window = window[removeLen:windowsize]

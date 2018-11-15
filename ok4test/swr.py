@@ -18,7 +18,7 @@ p = 0
 # 存储总边数
 edgeNum = 0
 # 窗口初始大小
-windowsize = 16997
+windowsize = 1699711
 # 最大窗口大小
 maxwindowsize = 10000000000
 # 窗口上升调整阈值
@@ -26,9 +26,9 @@ thresholdup = 0.000001
 # 窗口下降调整阈值
 thresholddown = 0.00000001
 # 考虑neighbors的情况的阈值,在最小的多少个子图中选择邻居节点最多的分区
-thresholdneighbors = 1
+thresholdneighbors = 10
 # 每次分配边的比例
-AssignProportion = 0.1
+AssignProportion = 1
 
 # [[(src, dst), (src, dst),...],[()],[()]....]          每个分区对应的边集合
 Partitions = [[] for i in range(numOfParts)]
@@ -43,7 +43,7 @@ partVertexTimes = {}
 
 edges = []
 window = []
-f = open("/home/w/data/Wiki-VoteRandom.txt", "r")
+f = open("/home/w/data/testdata/bfs1.txt", "r")
 for line in f:
     srcTar = line.strip().split()
     src = long(srcTar[0])
@@ -186,11 +186,11 @@ while(line < len(edges)):
         if(partVertexTimes.has_key((part, src))):
             partVertexTimes[(part, src)] = partVertexTimes[(part, src)] + 1
         else:
-            partVertexTimes[(part, src)] = 0
+            partVertexTimes[(part, src)] = 1
         if(partVertexTimes.has_key((part, tar))):
             partVertexTimes[(part, tar)] = partVertexTimes[(part, tar)] + 1
         else:
-            partVertexTimes[(part, tar)] = 0
+            partVertexTimes[(part, tar)] = 1
         
     # 修正窗口大小和内容
     window = window[removeLen:windowsize]
