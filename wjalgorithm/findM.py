@@ -29,12 +29,14 @@ def findM(edgelist, numOfParts):
     
     for line in f:
         srcTar = line.strip().split()
+        if(srcTar[0]=='#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
-        # edgeNum = edgeNum + 1
-        # if edgeNum % 1000 == 0:
-        #     print edgeNum
+        edgeNum = edgeNum + 1
+        if edgeNum % 1000 == 0:
+            print edgeNum
         allvertices.add(src)
         allvertices.add(tar)
         
@@ -129,7 +131,7 @@ def findM(edgelist, numOfParts):
 
     ans = 0
     for i in range(len(Partitions)):
-        if(len(Partitions[i])>0):
+        if(len(Partitions[i])>100):
             print len(Partitions[i])
             ans = ans + 1
     print ans
@@ -188,7 +190,7 @@ def findM(edgelist, numOfParts):
 
 # time_start = time.time()
 
-findM("/home/w/data/testdata/bfs1_70000_0.4.txt", 10000000)
+findM("/home/wj/swr/data/higgs-social_network.edgelist", 10000)
 
 # time_end = time.time()
 # time_used = time_end - time_start
