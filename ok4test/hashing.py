@@ -15,9 +15,14 @@ def hashing(edgelist, numOfParts):
     vertexDic = {}
     # 存储总边数
     edgeNum = 0
+
+    for i in range(numOfParts):
+        vertexDic[i] = set()
     
     for line in f:
         srcTar = line.strip().split()
+        if(srcTar[0] == '#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
@@ -26,18 +31,14 @@ def hashing(edgelist, numOfParts):
             print edgeNum
 
         # 分边策略
-        part = (src + tar) % numOfParts
+        mixingPrime = 1125899906842597L
+        part = abs(hash(src * mixingPrime + tar)) % numOfParts
         
         Partitions[part].append((src, tar))
         
-        if vertexDic.has_key(part):
-            vertexDic[part].add(src)
-            vertexDic[part].add(tar)
-        else:
-            vertexSet = set()  # 定义的是集合
-            vertexSet.add(src)
-            vertexSet.add(tar)
-            vertexDic[part] = vertexSet
+        vertexDic[part].add(src)
+        vertexDic[part].add(tar)
+        
 
     # 获取所有子图的顶点个数    
     allVertex = 0L
@@ -103,10 +104,19 @@ def hashing(edgelist, numOfParts):
     #     print '\n'
 
 
-time_start = time.time()
+# time_start = time.time()
 
-hashing("/home/w/data/testdata/bfs1.txt", 100)
+parts = [4, 9, 16, 36, 64, 100, 144, 196, 256]
+for i in range(len(parts)):
+    time_start = time.time()
+    print parts[i]
+    hashing("/home/wj/swr/data/cit-Patents.txt", parts[i])
+    time_end = time.time()
+    time_used = time_end - time_start
+    print "time " + str(time_used)
 
-time_end = time.time()
-time_used = time_end - time_start
-print "time " + str(time_used)
+# hashing("/home/wj/swr/data/user_sns.txt", 256)
+
+# time_end = time.time()
+# time_used = time_end - time_start
+# print "time " + str(time_used)

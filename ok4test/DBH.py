@@ -26,6 +26,8 @@ def DBH1(edgelist, numOfParts):
     # DBH 好像是需要提前预处理以获得所有点的 degrees 信息
     for line in initf:
         srcTar = line.strip().split()
+        if(srcTar[0] == '#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
 
@@ -50,6 +52,8 @@ def DBH1(edgelist, numOfParts):
     
     for line in f:
         srcTar = line.strip().split()
+        if(srcTar[0] == '#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
@@ -163,6 +167,8 @@ def DBH2(edgelist, numOfParts):
 
     for line in f:
         srcTar = line.strip().split()
+        if(srcTar[0] == '#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
@@ -261,7 +267,7 @@ def DBH2(edgelist, numOfParts):
     #         print Partitions[i][j]
     #     print '\n'
 
-time_start = time.time()
+# time_start = time.time()
 
 
 # parts = [3,4,8,11,16,29,32,59,64,99,119,128,201,249,256]
@@ -269,9 +275,17 @@ time_start = time.time()
 #     print parts[i]
 #     DBH("/home/w/data/web-BerkStan.txt", parts[i])
 
-DBH2("/home/w/data/testdata/bfs1.txt", 100)
+parts = [4, 9, 16, 36, 64, 100, 144, 196, 256]
+for i in range(len(parts)):
+    time_start = time.time()
+    print parts[i]
+    DBH2("/home/wj/swr/data/cit-Patents.txt", parts[i])
+    time_end = time.time()
+    time_used = time_end - time_start
+    print "time " + str(time_used)
 
-time_end = time.time()
-time_used = time_end - time_start
-print "time " + str(time_used)
+
+# time_end = time.time()
+# time_used = time_end - time_start
+# print "time " + str(time_used)
 

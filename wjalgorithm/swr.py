@@ -10,15 +10,15 @@ import time
 time_start = time.time()
 
 # 划分子图数量
-numOfParts = 100
+numOfParts = 9
 # 窗口大小上升速率
-q = 1
+q = 2
 # 窗口大小下降速率
 p = 0
 # 存储总边数
 edgeNum = 0
 # 窗口初始大小
-windowsize = 16997
+windowsize = 100  # 30622564  68993773
 # 最大窗口大小
 maxwindowsize = 10000000000
 # 窗口上升调整阈值
@@ -26,7 +26,7 @@ thresholdup = 0.000001
 # 窗口下降调整阈值
 thresholddown = 0.00000001
 # 考虑neighbors的情况的阈值,在最小的多少个子图中选择邻居节点最多的分区
-thresholdneighbors = 1
+thresholdneighbors = 3
 # 每次分配边的比例
 AssignProportion = 0.1
 
@@ -43,9 +43,11 @@ partVertexTimes = {}
 
 edges = []
 window = []
-f = open("/home/w/data/testdata/bfs1.txt", "r")
+f = open("/home/wj/swr/data/cit-Patents.txt", "r")
 for line in f:
     srcTar = line.strip().split()
+    if(srcTar[0] == '#'):
+        continue
     src = long(srcTar[0])
     tar = long(srcTar[1])
     edges.append((src, tar))
@@ -60,7 +62,7 @@ while(line < len(edges)):
         line = line + 1
     if(len(window) < windowsize):                            # 最后一点时，修正windowsize
         windowsize = len(window)
-    print windowsize
+    print "windowsize: " + str(windowsize)
     random.shuffle(window)
     if(line == len(edges)):
         AssignProportion = 1
@@ -69,9 +71,12 @@ while(line < len(edges)):
     for i in range(removeLen):
         src = window[i][0]
         tar = window[i][1]
+
+        edgeNum = edgeNum + 1
+        if edgeNum % 100000 == 0:
+            print edgeNum
         
         # 更新src和tar所存在的Partition和全局的度信息
-        edgeNum = edgeNum + 1
         if(ver2partDic.has_key(src)):
             srcMachines = ver2partDic[src]
         else:
@@ -96,7 +101,7 @@ while(line < len(edges)):
         # 开始根据策略对边进行分配
         part = -1
         # src和tar都没有出现的情况
-        if((len(srcMachines)==0)and(len(tarMachines)==0)):
+        if((len(srcMachines)==0) and (len(tarMachines)==0)):
             for j in range(numOfParts):
                 if(part==-1):
                     part = j
@@ -105,7 +110,7 @@ while(line < len(edges)):
                     part = j
 
         # src出现但是tar不出现的情况
-        elif((len(srcMachines)>0)and(len(tarMachines)==0)):
+        elif((len(srcMachines)>0) and (len(tarMachines)==0)):
             srcList = []                                             # [(len(Partition), part), ...]
             for j in srcMachines:
                 srcList.append((len(Partitions[j]), j))
@@ -118,7 +123,7 @@ while(line < len(edges)):
                     part = srcList[j][1]
 
         # src不出现但是tar出现的情况
-        elif((len(srcMachines)==0)and(len(tarMachines)>0)):
+        elif((len(srcMachines)==0) and (len(tarMachines)>0)):
             tarList = []                                             # [(len(Partition), part), ...]
             for j in tarMachines:
                 tarList.append((len(Partitions[j]), j))

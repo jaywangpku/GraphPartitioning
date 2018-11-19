@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# 完整的greedy方案实现
-
 import random
 import math
 import time
 
 def Greedy(edgelist, numOfParts):
+    a1 = 0
+    a2 = 0
+    a3 = 0
+    a4 = 0
+    a5 = 0
     f = open(edgelist, "r")
     # [[(src, dst), (src, dst),...],[()],[()]....]  每个分区对应的边集合
     Partitions = [[] for i in range(numOfParts)]
@@ -26,12 +29,13 @@ def Greedy(edgelist, numOfParts):
     
     for line in f:
         srcTar = line.strip().split()
+        if (srcTar[0] == '#'):
+            continue
         src = long(srcTar[0])
         tar = long(srcTar[1])
-        
         edgeNum = edgeNum + 1
-        if edgeNum % 1000000 == 0:
-            print edgeNum
+        # if edgeNum % 1 == 0:
+        #     print edgeNum
         
         if ver2partDic.has_key(src):
             srcMachines = ver2partDic[src]
@@ -58,6 +62,7 @@ def Greedy(edgelist, numOfParts):
 
 
         if (len(srcMachines) == 0) and (len(tarMachines) == 0):      # A(u) 和 A(v) 都是空集  选择边数量最少的子图加入
+            a1 = a1 + 1
             part = -1
             for i in range(numOfParts):
                 if part == -1:
@@ -67,6 +72,7 @@ def Greedy(edgelist, numOfParts):
                     part = i
 
         elif (len(srcMachines) > 0) and (len(tarMachines) == 0):
+            a2 = a2 + 1
             part = -1
             for i in srcMachines:
                 if part == -1:
@@ -76,6 +82,7 @@ def Greedy(edgelist, numOfParts):
                     part = i
 
         elif (len(srcMachines) == 0) and (len(tarMachines) > 0):
+            a3 = a3 + 1
             part = -1
             for i in tarMachines:
                 if part == -1:
@@ -88,6 +95,7 @@ def Greedy(edgelist, numOfParts):
             Intersection = srcMachines & tarMachines
             Convergence = srcMachines | tarMachines
             if (len(Intersection) > 0):
+                a4 = a4 + 1
                 part = -1
                 for i in Intersection:
                     if part == -1:
@@ -96,6 +104,7 @@ def Greedy(edgelist, numOfParts):
                     if len(Partitions[i]) < len(Partitions[part]):
                         part = i
             elif (len(Intersection) == 0):
+                a5 = a5 + 1
                 part = -1
                 for i in Convergence:
                     if part == -1:
@@ -126,14 +135,10 @@ def Greedy(edgelist, numOfParts):
     # 获取所有子图的顶点个数    
     allVertex = 0L
     maxVertices = 0L
-    minVertices = 1000000000L
     for i in range(numOfParts):
         allVertex = allVertex + len(vertexDic[i])
-        print len(vertexDic[i])
         if maxVertices < len(vertexDic[i]):
             maxVertices = len(vertexDic[i])
-        if minVertices > len(vertexDic[i]):
-            minVertices = len(vertexDic[i])
     # 获取整个图的顶点个数
     vertexAll = vertexDic[0]
     for i in range(1, numOfParts):
@@ -153,15 +158,12 @@ def Greedy(edgelist, numOfParts):
     
     # 获取边的相关信息
     maxEdges = 0L
-    minEdges = 1000000000L
     AveSize = edgeNum/float(numOfParts)
     temp = 0L
     for i in range(numOfParts):
         temp = temp + (len(Partitions[i]) - AveSize) * (len(Partitions[i]) - AveSize)
         if maxEdges < len(Partitions[i]):
             maxEdges = len(Partitions[i])
-        if minEdges > len(Partitions[i]):
-            minEdges = len(Partitions[i])
         print len(Partitions[i])
     temp = temp/numOfParts
     temp = math.sqrt(temp)
@@ -170,21 +172,16 @@ def Greedy(edgelist, numOfParts):
     LRSD = LSD/AveSize
 
     # 依次是 VRF  LSD  LRSD  VLSD  VLRSD  子图点最大值  子图点平均值  子图边最大值  子图边平均值
-    # print VRF, LSD, LRSD, VLSD, VLRSD, maxVertices, allVertex/numOfParts, maxEdges, edgeNum/numOfParts
-    print "VRF " + str(VRF)
-    print "max-edges " + str(maxEdges)
-    print "min-edges " + str(minEdges)
-    print "avg-edges " + str(edgeNum/numOfParts)
-    print "max-vertices " + str(maxVertices)
-    print "min-vertices " + str(minVertices)
-    print "avg-vertices " + str(allVertex/numOfParts)
-    print "LRSD " + str(LRSD)
-    print "VLRSD " + str(VLRSD)
+    print VRF, LSD, LRSD, VLSD, VLRSD, maxVertices, allVertex/numOfParts, maxEdges, edgeNum/numOfParts
+
+    print a1, a2, a3, a4, a5
+
 
     # for i in range(numOfParts):
     #     for j in range(len(Partitions[i])):
     #         print Partitions[i][j]
     #     print '\n'
+
 
 time_start = time.time()
 
@@ -193,11 +190,11 @@ time_start = time.time()
 # parts = [4,8,10,16,30,32,60,64,120,128,250,256,500,512]
 # for i in range(len(parts)):
 #     print parts[i]
-#     Greedy("/home/w/data/Wiki-VoteRandom.txt", parts[i])
+#     Greedy("/home/wj/swr/data/soc-LiveRandomCPP.txt", parts[i])soc-LiveJournal1.txt
 
-Greedy("/home/w/data/Wiki-VoteRandom.txt", 100)
+Greedy("/home/wj/swr/data/soc-LiveJournal1.txt", 100)
 
 time_end = time.time()
 time_used = time_end - time_start
-print "time " + str(time_used)
+print time_used
 
