@@ -43,8 +43,11 @@ def GridAL(edgelist, numOfParts, rs, cs):
     
     for line in f:
         srcTar = line.strip().split()
+<<<<<<< HEAD
         if(srcTar[0] == '#'):
             continue
+=======
+>>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
@@ -137,7 +140,11 @@ def GridAL(edgelist, numOfParts, rs, cs):
     #         print Partitions[i][j]
     #     print '\n'
 
+<<<<<<< HEAD
 # time_start = time.time()
+=======
+time_start = time.time()
+>>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
 
 # parts = [4,10,30,50,100,150,200,256]
 # rs = [2,2,3,5,10,10,10,16]
@@ -146,6 +153,7 @@ def GridAL(edgelist, numOfParts, rs, cs):
 #     print parts[i]
 #     GridAL("/home/w/data/testdata/bfs1.txt", parts[i], rs[i], cs[i])
 
+<<<<<<< HEAD
 parts = [4, 9, 16, 36, 64, 100, 144, 196, 256]
 rs = [2, 3, 4, 6, 8, 10, 12, 14, 16]
 for i in range(len(parts)):
@@ -161,4 +169,11 @@ for i in range(len(parts)):
 # time_end = time.time()
 # time_used = time_end - time_start
 # print "time " + str(time_used)
+=======
+GridAL("/home/w/data/testdata/bfs1.txt", 100, 10, 10)
+
+time_end = time.time()
+time_used = time_end - time_start
+print "time " + str(time_used)
+>>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
 

@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 
-f = open("/home/w/mytest/wjalgorithm/ans1.txt", "r")
+f = open("/home/w/Desktop/test.txt", "r")
 x = []
 y = []
 for line in f:
