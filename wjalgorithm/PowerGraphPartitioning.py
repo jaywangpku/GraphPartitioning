@@ -172,10 +172,29 @@ def Greedy(edgelist, numOfParts):
     LRSD = LSD/AveSize
 
     # 依次是 VRF  LSD  LRSD  VLSD  VLRSD  子图点最大值  子图点平均值  子图边最大值  子图边平均值
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
     print VRF, LSD, LRSD, VLSD, VLRSD, maxVertices, allVertex/numOfParts, maxEdges, edgeNum/numOfParts
 
     print a1, a2, a3, a4, a5
 
+<<<<<<< HEAD
+=======
+=======
+    # print VRF, LSD, LRSD, VLSD, VLRSD, maxVertices, allVertex/numOfParts, maxEdges, edgeNum/numOfParts
+    print "VRF " + str(VRF)
+    print "max-edges " + str(maxEdges)
+    print "min-edges " + str(minEdges)
+    print "avg-edges " + str(edgeNum/numOfParts)
+    print "max-vertices " + str(maxVertices)
+    print "min-vertices " + str(minVertices)
+    print "avg-vertices " + str(allVertex/numOfParts)
+    print "LRSD " + str(LRSD)
+    print "VLRSD " + str(VLRSD)
+>>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
+>>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
 
     # for i in range(numOfParts):
     #     for j in range(len(Partitions[i])):
@@ -190,9 +209,21 @@ time_start = time.time()
 # parts = [4,8,10,16,30,32,60,64,120,128,250,256,500,512]
 # for i in range(len(parts)):
 #     print parts[i]
+<<<<<<< HEAD
 #     Greedy("/home/wj/swr/data/soc-LiveRandomCPP.txt", parts[i])soc-LiveJournal1.txt
 
 Greedy("/home/wj/swr/data/soc-LiveJournal1.txt", 100)
+=======
+<<<<<<< HEAD
+#     Greedy("/home/wj/swr/data/soc-LiveRandomCPP.txt", parts[i])soc-LiveJournal1.txt
+
+Greedy("/home/wj/swr/data/soc-LiveJournal1.txt", 100)
+=======
+#     Greedy("/home/w/data/Wiki-VoteRandom.txt", parts[i])
+
+Greedy("/home/w/data/Wiki-VoteRandom.txt", 100)
+>>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
+>>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
 
 time_end = time.time()
 time_used = time_end - time_start

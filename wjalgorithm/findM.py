@@ -190,7 +190,15 @@ def findM(edgelist, numOfParts):
 
 # time_start = time.time()
 
+<<<<<<< HEAD
 findM("/home/wj/swr/data/higgs-social_network.edgelist", 10000)
+=======
+<<<<<<< HEAD
+findM("/home/wj/swr/data/higgs-social_network.edgelist", 10000)
+=======
+findM("/home/w/data/cit-Patents.txt", 10000)
+>>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
+>>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
 
 # time_end = time.time()
 # time_used = time_end - time_start

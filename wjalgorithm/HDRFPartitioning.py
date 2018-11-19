@@ -219,7 +219,15 @@ time_start = time.time()
 #     print parts[i]
 #     HDRFAL("/home/w/data/web-BerkStan.txt", parts[i], 2.0)
 
+<<<<<<< HEAD
 HDRFAL("/home/wj/swr/data/cit-Patents.txt", 9, 1.1)
+=======
+<<<<<<< HEAD
+HDRFAL("/home/wj/swr/data/cit-Patents.txt", 9, 1.1)
+=======
+HDRFAL("/home/wj/swr/data/soc-LiveJournal1.txt", 100, 1.1)
+>>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
+>>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
 
 time_end = time.time()
 time_used = time_end - time_start

@@ -15,9 +15,9 @@ from bidict import bidict
 
 time_start = time.time()
 
-f = open("/home/w/data/testdata/bfs-1000K.txt", "w+")
+f = open("/home/wj/swr/data/ba-bfs.txt", "w+")
 
-g = nx.random_graphs.barabasi_albert_graph(1000000, 20)   # log2 n  100K nodes   (100000, 17)
+g = nx.random_graphs.barabasi_albert_graph(100000, 17)   # log2 n  100K nodes   (100000, 17)
 G = nx.Graph()
 
 edges = list(g.edges())
@@ -26,6 +26,8 @@ nodes = list(g.nodes())
 # 首先映射边集情况
 edges_bd = bidict()
 ed2no_bd = bidict()
+
+print("1")
 
 for i in range(len(edges)):
 	if edges[i][0] > edges[i][1]:
@@ -38,6 +40,7 @@ for i in range(len(edges)):
 ed2no_db = ed2no_bd.inv
 edges_db = edges_bd.inv
 
+print("2")
 
 for i in range(len(edges)):
 	G.add_node(i)
@@ -56,6 +59,7 @@ for i in range(len(nodes)):
 		for mm in range(m+1,len(e)):
 			G.add_edge(e[m], e[mm])
 
+print("3")
 
 b = list(nx.bfs_edges(G, 0))
 c = []
@@ -64,6 +68,8 @@ for i in range(len(b)):
 		c.append(b[i][0])
 	if b[i][1] not in c:
 		c.append(b[i][1])
+
+print("4")
 
 # ans_edges = []
 for i in range(len(c)):
@@ -84,4 +90,4 @@ for i in range(len(c)):
 
 time_end = time.time()
 time_used = time_end - time_start
-print time_used
+print(time_used)
