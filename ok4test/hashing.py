@@ -15,7 +15,6 @@ def hashing(edgelist, numOfParts):
     vertexDic = {}
     # 存储总边数
     edgeNum = 0
-<<<<<<< HEAD
 
     for i in range(numOfParts):
         vertexDic[i] = set()
@@ -24,22 +23,6 @@ def hashing(edgelist, numOfParts):
         srcTar = line.strip().split()
         if(srcTar[0] == '#'):
             continue
-=======
-<<<<<<< HEAD
-
-    for i in range(numOfParts):
-        vertexDic[i] = set()
-    
-    for line in f:
-        srcTar = line.strip().split()
-        if(srcTar[0] == '#'):
-            continue
-=======
-    
-    for line in f:
-        srcTar = line.strip().split()
->>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
->>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
         src = long(srcTar[0])
         tar = long(srcTar[1])
         
@@ -48,7 +31,6 @@ def hashing(edgelist, numOfParts):
             print edgeNum
 
         # 分边策略
-<<<<<<< HEAD
         mixingPrime = 1125899906842597L
         part = abs(hash(src * mixingPrime + tar)) % numOfParts
         
@@ -57,31 +39,6 @@ def hashing(edgelist, numOfParts):
         vertexDic[part].add(src)
         vertexDic[part].add(tar)
         
-=======
-<<<<<<< HEAD
-        mixingPrime = 1125899906842597L
-        part = abs(hash(src * mixingPrime + tar)) % numOfParts
-        
-        Partitions[part].append((src, tar))
-        
-        vertexDic[part].add(src)
-        vertexDic[part].add(tar)
-        
-=======
-        part = (src + tar) % numOfParts
-        
-        Partitions[part].append((src, tar))
-        
-        if vertexDic.has_key(part):
-            vertexDic[part].add(src)
-            vertexDic[part].add(tar)
-        else:
-            vertexSet = set()  # 定义的是集合
-            vertexSet.add(src)
-            vertexSet.add(tar)
-            vertexDic[part] = vertexSet
->>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
->>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
 
     # 获取所有子图的顶点个数    
     allVertex = 0L
@@ -147,41 +104,19 @@ def hashing(edgelist, numOfParts):
     #     print '\n'
 
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
 # time_start = time.time()
 
 parts = [4, 9, 16, 36, 64, 100, 144, 196, 256]
 for i in range(len(parts)):
     time_start = time.time()
     print parts[i]
-    hashing("/home/wj/swr/data/cit-Patents.txt", parts[i])
+    hashing("/home/wj/swr/data/b-DFS.txt", parts[i])
     time_end = time.time()
     time_used = time_end - time_start
     print "time " + str(time_used)
-<<<<<<< HEAD
-=======
 
 # hashing("/home/wj/swr/data/user_sns.txt", 256)
 
 # time_end = time.time()
 # time_used = time_end - time_start
 # print "time " + str(time_used)
-=======
-time_start = time.time()
->>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
-
-# hashing("/home/wj/swr/data/user_sns.txt", 256)
-
-<<<<<<< HEAD
-# time_end = time.time()
-# time_used = time_end - time_start
-# print "time " + str(time_used)
-=======
-time_end = time.time()
-time_used = time_end - time_start
-print "time " + str(time_used)
->>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
->>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
