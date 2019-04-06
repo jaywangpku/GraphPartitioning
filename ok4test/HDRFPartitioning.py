@@ -107,7 +107,7 @@ def HDRFAL(edgelist, numOfParts, a):
 
             rep = gsrc + gtar
 
-            bal = x * (maxsize - len(Partitions[partTemp])) / (float)(maxsize - minsize + 1)   # 加 1 避免除 0
+            bal = x * (maxsize - len(Partitions[partTemp])) / (float)(maxsize - minsize + 0.01)   # 加 1 避免除 0
 
             score = rep + bal
 
@@ -117,7 +117,9 @@ def HDRFAL(edgelist, numOfParts, a):
         for j in range(numOfParts):
             if partSocre2edge[part] < partSocre2edge[j]:
                 part = j
-        # print partSocre2edge[part]
+        # print "maxscore: " + str(partSocre2edge[part])
+        # print part
+
 
         # 更新各种集合数据
         Partitions[part].append((src, tar))
@@ -219,15 +221,7 @@ time_start = time.time()
 #     print parts[i]
 #     HDRFAL("/home/w/data/web-BerkStan.txt", parts[i], 2.0)
 
-<<<<<<< HEAD
-HDRFAL("/home/wj/swr/data/cit-Patents.txt", 4, 1.1)
-=======
-<<<<<<< HEAD
-HDRFAL("/home/wj/swr/data/cit-Patents.txt", 4, 1.1)
-=======
-HDRFAL("/home/wj/swr/data/soc-LiveJournal1.txt", 100, 1.1)
->>>>>>> e0016cf33cb3ed6721e1eb9a52867e9b3a2fc558
->>>>>>> 16102276ccd553a0bd326a871a4aed920b9e3666
+HDRFAL("/home/w/data/Wiki-Vote.txt", 100, 1.2)
 
 time_end = time.time()
 time_used = time_end - time_start
