@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# 完整的HDRF方案实现
+# 完整的HDRF方案实现 
 
 import random
 import math
