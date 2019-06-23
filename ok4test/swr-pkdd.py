@@ -26,7 +26,7 @@ thresholdup = 0.000001
 # 窗口下降调整阈值
 thresholddown = 0.00000001
 # 考虑neighbors的情况的阈值,在最小的多少个子图中选择邻居节点最多的分区
-thresholdneighbors = 1
+thresholdneighbors = 3
 # 每次分配边的比例
 AssignProportion = 0.1
 
@@ -46,7 +46,7 @@ edge2degreeDic = {}
 
 edges = []
 window = []
-f = open("/home/w/data/Wiki-Vote.txt", "r")
+f = open("/home/w/data/soc-LiveJournal1.txt", "r")
 for line in f:
     srcTar = line.strip().split()
     if(srcTar[0] == '#'):
@@ -72,24 +72,152 @@ while(line < len(edges)):
             ver2degreeDic[tar] = ver2degreeDic[tar] + 1
         else:
             ver2degreeDic[tar] = 1
+
         line = line + 1
     if(len(window) < windowsize):                            # 最后一点时，修正windowsize
         windowsize = len(window)
 
-    windowSort = []
-    for i in range(len(window)):
-        src = window[i][0]
-        tar = window[i][1]
-        if(ver2degreeDic[src] < ver2degreeDic[tar]):
-            windowSort.append((src, tar))
+    # 先进行乱序操作
+    random.shuffle(window)
+
+    # 用partition函数进行第一次划分
+    okflag = 0
+    start = 0
+    end = len(window) - 1
+    startTemp = 0
+    endTemp = len(window) - 1
+    cut1 = 0
+    cut1Temp = 0
+    tryTimes = 10
+    while(okflag < 0.3 or okflag > 0.3877):
+        # 获取本轮的start 和 end
+        if okflag < 0.3:
+            start = cut1
+            end = endTemp
         else:
-            windowSort.append((tar, src))
-    window = sorted(list(windowSort), key=lambda x: (ver2degreeDic[x[0]]))
-    windowPart1 = window[0 : len(window)/2]
-    windowPart2 = window[len(window)/2 : len(window)]
-    random.shuffle(windowPart1)
-    random.shuffle(windowPart2)
-    window = windowPart1 + windowPart2
+            start = startTemp
+            end = cut1
+        print start, end
+        startTemp = start
+        endTemp = end
+        cut1Temp = cut1
+        # 每一轮测试随机选取一次哨兵边
+        randEdge = random.randint(start, end)
+        edgeTemp = window[randEdge]
+        edgeTempValue = 0
+        if(ver2degreeDic[edgeTemp[0]] == 1):
+            edgeTempValue = ver2degreeDic[edgeTemp[1]]
+        elif(ver2degreeDic[edgeTemp[1]] == 1):
+            edgeTempValue = ver2degreeDic[edgeTemp[0]]
+        elif(ver2degreeDic[edgeTemp[0]] < ver2degreeDic[edgeTemp[1]]):
+            edgeTempValue = ver2degreeDic[edgeTemp[0]]
+        else:
+            edgeTempValue = ver2degreeDic[edgeTemp[1]]
+        
+        flagP = 0
+        edgeGet = window[start]
+        edgeValue = 0
+        while(start < end):
+            if(flagP == 0):
+                edgeGet = window[start]
+            else:
+                edgeGet = window[end]
+            if(ver2degreeDic[edgeGet[0]] == 1):
+                edgeValue = ver2degreeDic[edgeGet[1]]
+            elif(ver2degreeDic[edgeGet[1]] == 1):
+                edgeValue = ver2degreeDic[edgeGet[0]]
+            elif(ver2degreeDic[edgeGet[0]] < ver2degreeDic[edgeGet[1]]):
+                edgeValue = ver2degreeDic[edgeGet[0]]
+            else:
+                edgeValue = ver2degreeDic[edgeGet[1]]
+            if(flagP == 0):
+                if(edgeValue > edgeTempValue):
+                    window[randEdge] = window[start]
+                    randEdge = start
+                    flagP = 1
+                else:
+                    start = start + 1
+            else:
+                if(edgeValue < edgeTempValue):
+                    window[randEdge] = window[end]
+                    randEdge = end
+                    flagP = 0
+                else:
+                    end = end - 1
+        window[start] = edgeTemp
+        cut1 = start
+        if cut1 == cut1Temp:
+            tryTimes = tryTimes - 1
+        if tryTimes == 0:
+            break
+        okflag = cut1 / 1.0 / len(window)
+    windowRand1 = window[0 : cut1]
+    # 用partition函数进行第二次划分
+    okflag = 0
+    start = cut1
+    end = len(window) - 1
+    startTemp = cut1
+    endTemp = len(window) - 1
+    cut2 = 0
+    cut2Temp = 0
+    tryTimes = 10
+    while(okflag < 0.3 or okflag > 0.45):
+        # 获取本轮的start 和 end
+        if okflag < 0.3:
+            start = cut2
+            end = endTemp
+        else:
+            start = startTemp
+            end = cut2
+        print start, end
+        startTemp = start
+        endTemp = end
+        cut2Temp = cut2
+        # 每一轮测试随机选取一次哨兵边
+        randEdge = random.randint(start, end)
+        edgeTemp = window[randEdge]
+        edgeTempValue = 0
+        if(ver2degreeDic[edgeTemp[0]] < ver2degreeDic[edgeTemp[1]]):
+            edgeTempValue = ver2degreeDic[edgeTemp[0]]
+        else:
+            edgeTempValue = ver2degreeDic[edgeTemp[1]]
+        
+        flagP = 0
+        edgeGet = window[cut1]
+        edgeValue = 0
+        while(start < end):
+            if(flagP == 0):
+                edgeGet = window[start]
+            else:
+                edgeGet = window[end]
+            if(ver2degreeDic[edgeGet[0]] < ver2degreeDic[edgeGet[1]]):
+                edgeValue = ver2degreeDic[edgeGet[0]]
+            else:
+                edgeValue = ver2degreeDic[edgeGet[1]]
+            if(flagP == 0):
+                if(edgeValue > edgeTempValue):
+                    window[randEdge] = window[start]
+                    randEdge = start
+                    flagP = 1
+                else:
+                    start = start + 1
+            else:
+                if(edgeValue < edgeTempValue):
+                    window[randEdge] = window[end]
+                    randEdge = end
+                    flagP = 0
+                else:
+                    end = end - 1
+        window[start] = edgeTemp
+        cut2 = start
+        if cut2 == cut2Temp:
+            tryTimes = tryTimes - 1
+        if tryTimes == 0:
+            break
+        okflag = (cut2 - cut1) / 1.0 / (len(window) -  cut1)
+    windowRand2 = window[cut1 : cut2]
+    windowRand3 = window[cut2 : len(window)]
+    window = windowRand1 + windowRand2 + windowRand3
 
     if(line == len(edges)):
         AssignProportion = 1
@@ -98,7 +226,10 @@ while(line < len(edges)):
     for i in range(removeLen):
         src = window[i][0]
         tar = window[i][1]
+
         edgeNum = edgeNum + 1
+        if edgeNum % 1000 == 0:
+            print edgeNum
         
         # 更新src和tar所存在的Partition和全局的度信息
         if(ver2partDic.has_key(src)):
@@ -276,12 +407,14 @@ for i in range(numOfParts):
         maxEdges = len(Partitions[i])
     if minEdges > len(Partitions[i]):
         minEdges = len(Partitions[i])
+    print len(Partitions[i])
 temp = temp/numOfParts
 temp = math.sqrt(temp)
 
 LSD = temp
 LRSD = LSD/AveSize
 
+print edgeNum
 # 依次是 VRF  LSD  LRSD  VLSD  VLRSD  子图点最大值  子图点平均值  子图边最大值  子图边平均值
 # print VRF, LSD, LRSD, VLSD, VLRSD, maxVertices, allVertex/numOfParts, maxEdges, edgeNum/numOfParts
 print "VRF " + str(VRF)
